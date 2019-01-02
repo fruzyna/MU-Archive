@@ -1,0 +1,13 @@
+Liam Fruzyna
+MU COSC 4800
+Final Exam Q3
+Test Results
+
+Apt Number: 1001
+Apartment Number #1001 is not availabe for renting. The apartment last rented for $1155 on 2016-04-15 00:00:00The apartment last rented for $1250 on 2016-08-07 00:00:00
+
+Apt Number: 1003
+Apartment Number #1003 is not availabe for renting. The apartment last rented for $965 on 2016-03-05 00:00:00The apartment last rented for $965 on 2016-02-08 00:00:00
+
+Apt Number: 1006
+Apartment Number #1006 is availabe for renting. Has not been previously rented.

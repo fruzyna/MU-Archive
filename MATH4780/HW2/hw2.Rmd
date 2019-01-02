@@ -1,0 +1,132 @@
+---
+title: "Math 4780 - Homework 2"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+### \#3.1 Consider the NFL data in table B.1
+Load in dataset
+```{r}
+library(MPV)
+nfl = table.b1
+```
+
+#### a) Fit a multiple linear regression model relating y to x2, x7, and x8
+```{r}
+model <- lm(y ~ x2 + x7 + x8, data=nfl)
+summary <- summary(model)
+model$coefficients
+```
+
+$\hat{y} = -1.8 + 0.0036x_2 + 0.196x_7 - 0.0048x_8$
+
+#### b) Construct the anova table and test for significance
+```{r}
+anova(model)
+```
+All 3 variables are significant, their p-values are very small.
+
+#### c) Calculate t statistics for testing the hypotheses
+```{r}
+summary
+```
+
+~~~
+Coefficient  T-Val P-Value
+x2           5.177 2.66e-05
+x7           2.198 0.037815
+x8          -3.771 0.000938
+~~~
+
+#### d) Calculate R^2 and adjusted R^2 values
+```{r}
+summary$r.squared
+summary$adj.r.squared
+```
+
+$R^2 = 79\%$ and Adjusted $R^2 = 76\%$
+
+#### e) Using the partial F test determine the contribution of x7 to the model
+```{r}
+reduced <- lm(y ~ x2 + x8, data=nfl)
+anova(reduced, model)
+```
+
+F-Value is 4.83, it is significant at 95% bounds. This test statistic is the square of the t-statistic.
+
+### \#3.3 Using 3.1
+#### a) 95% CI on B7
+```{r}
+confint(model, 'x7', level=0.95)
+```
+
+The 95% confidence interval of $\beta_7$ is 0.012 to 0.376
+
+#### b) 95% CI on mean number of games won when x2=2300 x7=56 and x8=2100
+```{r}
+predict(model, data.frame(x2=2300, x7=56, x8=2100), interval='confidence')
+```
+
+The 95% confidence interval of y is 6.436 to 7.997
+
+### \#3.9 Consider the data in table B.6
+Load in dataset
+```{r}
+library(MPV)
+NbOCl <- table.b6
+```
+
+#### a) Fit a multiple linear regression model relating y to x1 and x4
+```{r}
+model <- lm(y ~ x1 + x4, data=NbOCl)
+summary <- summary(model)
+model$coefficients
+```
+
+$\hat{y} = 0.005 - 0.345x_1 -0.0001x_4$
+
+#### b) Test for significance of regression
+```{r}
+anova <- anova(model)
+anova
+mean(anova$`F value`[1:2])
+```
+
+The F value is 24.66 which is significant to 95%
+
+#### c) Calculate R^2 and adjusted R^2
+```{r}
+summary$r.squared
+summary$adj.r.squared
+```
+
+$R^2 = 66\%$ and Adjusted $R^2 = 64\%$
+
+#### d) Determine the contribution of x1 and x4 to the model with t-tests. Are they both necessary?
+```{r}
+summary
+```
+
+$x_1$ is definitely significant at its p-value is very low (significant to 99.9%), however, $x_4$ is not significant as its p-value is very high.
+
+#### e) Is multicollinearity a concern?
+```{r}
+library(car)
+vif(model)
+```
+No multicollinearity is not a concern because VIF is low for both variables.
+
+### \#9 Prove H and I-H are idempotent
+$HH = X(X^TX)^{-1}X^TX(X^TX)^{-1}X^T$
+
+$HH = X(X^TX)^{-1}X^T$
+
+$HH = H$
+
+$(I - H)(I - H) = I - H - H + HH$
+
+$(I - H)(I - H) = I - H - H + H$
+
+$(I - H)(I - H) = (I - H)$

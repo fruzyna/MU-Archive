@@ -1,0 +1,8 @@
+4.1.1) Because the argument of a function could be the result of another function, WAE is not capable of processing functions.
+(fundef ’square ’n (mul (id ’n) (id ’n)))
+{square {square 5}}
+
+4.1.2) A function could a an expansion of another function meaning the body would have to contian the first function, WAE is not capable of processing functions so F1WAE is necessary.
+(fundef ’pow4 ’n (square (square((id ’n)))))
+
+4.1.3) See lf-e106.rkt

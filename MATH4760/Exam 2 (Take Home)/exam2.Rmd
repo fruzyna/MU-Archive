@@ -1,0 +1,206 @@
+---
+title: "MATH 4760 Exam 2"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+---  
+---
+
+### 5) For the following four data sets, your objective is to come up with an appropriate ARIMA model (seasonal or non-seasonal).
+
+- 1 Sulfer dioxide series, so2
+- 2 Crude oil prices, oil
+- 3 Global temperature data, gtemp
+- 4 Johnson and Johnson earnings, jj
+
+#### 1) Sulfer dioxide series, so2
+##### a) Plot of the data
+```{r}
+library(astsa)
+plot.ts(so2)
+```
+
+##### b) Box-Cox transformation if necessary, and the plot of the transformed data. Note that if a transformation is necessary, the transformed data must be used throughout.
+Transformation is not necessary
+
+##### c) Use appropriate techniques (if necessary) to remove trend and seasonal variations. Explain clearly what method(s) was used. Also submit the plot.
+
+##### d) Plot of ACF and PACF. Explain clearly how you use them to determine a range of ARIMA model. Make sure to use differencing if necessary.
+```{r}
+acf2(so2)
+```
+
+Data set is not stationary so differencing is required.
+```{r}
+diff = diff(so2)
+plot.ts(diff)
+acf2(diff)
+```
+
+The ACF is used to determine q which would be 4 in this case and the PACF is used to determine p which would be 7 in this case.
+
+##### e) Using certain criterion, determine an optimal ARMA(p, q) model.
+```{r}
+sarima(so2, 7, 1, 4)
+```
+
+##### f) Using hypothesis testing methods, check if certain parameters of the ARMA model can be removed. 
+
+##### g) Performed diagnostic check for the model you obtained. Submit the appropriate plots. Make sure to use Box-Ljung statistics to test for white noise. If diagnostic check failed, adjust your model and start all over.  Compare all possible models you considered with AIC values and p-values of the Box-Ljung statistics. Determine the final model.
+See e
+
+##### h) Write the equation of the final model with clearly indicating the AR and MA coefficients. What is the estimate of the white noise variance? What does it tell you?
+$ X_t+0.707X_{t-1}-0.081X_{t-2}-0.716X_{t-3}-0.089X_{t-4}-0.0937X_{t-5}-0.127X_{t-6}-0.008X_{t-7}=Z_t-0.178Z_{t-1}-0.635Z_{t-2}-0.767Z_{t-3}+0.580X_{t-4} $
+
+##### i) Forecast the next 20 values, and submit the plot showing the data with forecast values together with their prediction intervals. State the forecasting values with their standard errors.
+```{r}
+sarima.for(so2, 20, 7, 1, 4)
+```
+
+#### 2) Crude oil prices, oil
+
+##### a) Plot of the data
+```{r}
+plot.ts(oil)
+```
+
+##### b) Box-Cox transformation if necessary, and the plot of the transformed data. Note that if a transformation is necessary, the transformed data must be used throughout.
+```{r}
+log = log(oil)
+plot.ts(log)
+```
+
+##### c) Use appropriate techniques (if necessary) to remove trend and seasonal variations. Explain clearly what method(s) was used. Also submit the plot.
+
+
+##### d) Plot of ACF and PACF. Explain clearly how you use them to determine a range of ARIMA model. Make sure to use differencing if necessary.
+```{r}
+acf2(log)
+```
+
+Data set is not stationary so differencing is required.
+```{r}
+difflog = diff(log)
+plot.ts(difflog)
+acf2(difflog)
+```
+
+The ACF is used to determine q which would be 1 in this case and the PACF is used to determine p which would be 3 in this case.
+
+##### e) Using certain criterion, determine an optimal ARMA(p, q) model.
+```{r}
+sarima(log, 3, 1, 1)
+```
+
+##### f) Using hypothesis testing methods, check if certain parameters of the ARMA model can be removed. 
+
+##### g) Performed diagnostic check for the model you obtained. Submit the appropriate plots. Make sure to use Box-Ljung statistics to test for white noise. If diagnostic check failed, adjust your model and start all over.  Compare all possible models you considered with AIC values and p-values of the Box-Ljung statistics. Determine the final model.
+See e
+
+##### h) Write the equation of the final model with clearly indicating the AR and MA coefficients. What is the estimate of the white noise variance? What does it tell you?
+$ X_t+0.322X_{t-1}+0.039X_{t-2}-0.118X_{t-3}=Z_t+0.495Z_{t-1} $
+
+##### i) Forecast the next 20 values, and submit the plot showing the data with forecast values together with their prediction intervals. State the forecasting values with their standard errors.
+```{r}
+sarima.for(log, 20, 3, 1, 1)
+```
+
+
+---
+
+#### 3) Global temperature data, gtemp
+
+##### a) Plot of the data
+```{r}
+plot.ts(gtemp)
+```
+
+##### b) Box-Cox transformation if necessary, and the plot of the transformed data. Note that if a transformation is necessary, the transformed data must be used throughout.
+Transformation was not necessary.
+
+##### c) Use appropriate techniques (if necessary) to remove trend and seasonal variations. Explain clearly what method(s) was used. Also submit the plot.
+
+##### d) Plot of ACF and PACF. Explain clearly how you use them to determine a range of ARIMA model. Make sure to use differencing if necessary.
+```{r}
+acf2(gtemp)
+```
+
+Data set is not stationary so differencing is required.
+```{r}
+diff = diff(gtemp)
+plot.ts(diff)
+acf2(diff)
+```
+
+The ACF is used to determine q which would be 1 in this case and the PACF is used to determine p which would be 3 in this case.
+
+##### e) Using certain criterion, determine an optimal ARMA(p, q) model.
+```{r}
+sarima(gtemp, 3, 1, 1)
+```
+
+##### f) Using hypothesis testing methods, check if certain parameters of the ARMA model can be removed. 
+
+##### g) Performed diagnostic check for the model you obtained. Submit the appropriate plots. Make sure to use Box-Ljung statistics to test for white noise. If diagnostic check failed, adjust your model and start all over.  Compare all possible models you considered with AIC values and p-values of the Box-Ljung statistics. Determine the final model.
+See e
+
+##### h) Write the equation of the final model with clearly indicating the AR and MA coefficients. What is the estimate of the white noise variance? What does it tell you?
+$ X_t-0.070X_{t-1}+0.182X_{t-2}+0.130X_{t-3}=Z_t-0.581Z_{t-1} $
+
+##### i) Forecast the next 20 values, and submit the plot showing the data with forecast values together with their prediction intervals. State the forecasting values with their standard errors.
+```{r}
+sarima.for(gtemp, 20, 3, 1, 1)
+```
+
+
+---
+
+#### 4) Johnson and Johnson earnings, jj
+
+##### a) Plot of the data
+```{r}
+plot.ts(jj)
+```
+
+##### b) Box-Cox transformation if necessary, and the plot of the transformed data. Note that if a transformation is necessary, the transformed data must be used throughout.
+```{r}
+log = log(jj)
+plot.ts(log)
+```
+
+##### c) Use appropriate techniques (if necessary) to remove trend and seasonal variations. Explain clearly what method(s) was used. Also submit the plot.
+
+##### d) Plot of ACF and PACF. Explain clearly how you use them to determine a range of ARIMA model. Make sure to use differencing if necessary.
+```{r}
+acf2(log)
+```
+
+Data set is not stationary so differencing is required.
+```{r}
+difflog = diff(log)
+plot.ts(difflog)
+acf2(difflog)
+```
+
+The ACF is used to determine q which would be 5 in this case and the PACF is used to determine p which would be 1 in this case.
+
+##### e) Using certain criterion, determine an optimal ARMA(p, q) model.
+```{r}
+sarima(log, 1,1,5, 3,1,1, 4)
+```
+
+##### f) Using hypothesis testing methods, check if certain parameters of the ARMA model can be removed. 
+
+##### g) Performed diagnostic check for the model you obtained. Submit the appropriate plots. Make sure to use Box-Ljung statistics to test for white noise. If diagnostic check failed, adjust your model and start all over.  Compare all possible models you considered with AIC values and p-values of the Box-Ljung statistics. Determine the final model.
+See e
+
+##### h) Write the equation of the final model with clearly indicating the AR and MA coefficients. What is the estimate of the white noise variance? What does it tell you?
+$ X_t+0.243X_{t-1}=Z_t-0.360Z_{t-1}-0.061Z_{t-2}-0.303Z_{t-3}+0.831Z_{t-4}-0.334Z_{t-5} $
+
+##### i) Forecast the next 20 values, and submit the plot showing the data with forecast values together with their prediction intervals. State the forecasting values with their standard errors.
+```{r}
+sarima.for(log, 20, 1,1,5, 3,1,1, 4)
+```

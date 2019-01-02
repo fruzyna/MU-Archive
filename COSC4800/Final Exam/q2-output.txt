@@ -1,0 +1,44 @@
+Liam Fruzyna
+MU COSC 4800
+Final Exam Q2
+Query Output
+
+ANUM BUILDINGNUM   FLOORNUM
+---- ----------- ----------
+1006          13          3
+1007          11          1
+
+
+CNAME               
+--------------------
+Smith, John
+Smith, Sheryl
+
+
+CID             CNAME                SSN       PHONE          COUNT(*)
+--------------- -------------------- --------- ------------ ----------
+105             Mickson, Mick        333333333 414-333-5555          2
+100             Johnson, John        666666666 414-555-5555          2
+
+
+CNAME               
+--------------------
+Johnson, Joe
+Johnson, John
+
+
+ AVG(RENT)
+----------
+  1039.375
+
+
+ANUM   COUNT(*)
+---- ----------
+1001          2
+1003          2
+
+
+ANUM (SELECTCOUNT(*)FROMRENTEDBYWHERER.ANUM=ANUM)
+---- --------------------------------------------
+1003                                            2
+1001                                            2

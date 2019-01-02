@@ -1,0 +1,48 @@
+[mail929@BA5C0E Assignment 8]$ erl
+Erlang/OTP 19 [erts-8.3.5.3] [source] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+
+Eshell V8.3.5.3  (abort with ^G)
+1> c(cart). 
+{ok,cart}
+2> 
+2> Pid = cart:start().
+<0.65.0>
+3> cart:add_item(Pid, hotdog, 1.0).
+ok
+4> cart:add_item(Pid, bun, 0.5).
+ok
+5> cart:show_shelves(Pid).
+[{hotdog,1.0},
+ {cupcake,0.75},
+ {lettuce,1.5},
+ {soup,2.35},
+ {bun,0.5}]
+6> cart:choose(Pid, lettuce, 3).
+ok
+7> cart:choose(Pid, hotdog, 12).
+ok
+8> cart:choose(Pid, bun, 12).
+ok
+9> cart:show_cart(Pid).
+[{lettuce,3},{hotdog,12},{bun,12}]
+10> cart:remove(Pid, lettuce).
+ok
+11> cart:choose(Pid, cupcake, 6).
+ok
+12> cart:choose(Pid, cupcake, 6).
+ok
+13> cart:show_cart(Pid).
+[{hotdog,12},{bun,12},{cupcake,12}]
+14> cart:checkout(Pid).
+27.0
+15> cart:remove(Pid, hotdog).    
+ok
+16> cart:remove(Pid, bun).   
+ok
+17> cart:remove(Pid, cupcake).
+ok
+18> cart:show_cart(Pid).      
+[]
+19> q().
+ok
+20> [mail929@BA5C0E Assignment 8]$ 

@@ -1,0 +1,241 @@
+---
+title: "Math 4780 - Homework 3"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+### \#4.2 Consider the previous problem 3.1
+Previous work
+```{r}
+library(MPV)
+nfl = table.b1
+model <- lm(y ~ x2 + x7 + x8, data=nfl)
+```
+
+#### a) Construct a normal probability plot of the residuals. Is there any problem with the normality assumption?
+```{r}
+residuals = model$residuals
+qqnorm(residuals, ylab='Residuals', xlab='Normal Scores', main='Normal Probability Plot - NFL')
+qqline(residuals)
+```
+
+The plot has a slight ploblem with normality.
+
+#### b) Construct and interpret a plot of the residuals versus the predicted result
+```{r}
+predicted = predict(model)
+plot(predicted, residuals, xlab='Predicted Value', ylab='Residuals', main='Residuals vs Predicted')
+abline(0,0)
+```
+
+This plot is evenly distributed. It is good.
+
+#### c) Construct plots of the residuals versus each of the regressors. Do these plots imply the regressors is specified correctly?
+```{r}
+plot(nfl$x2, residuals, xlab='x_2', ylab='Residuals', main='Residuals vs x_2')
+abline(0,0)
+```
+
+This plot is not even enough.
+
+```{r}
+plot(nfl$x7, residuals, xlab='x_7', ylab='Residuals', main='Residuals vs x_7')
+abline(0,0)
+```
+
+This plot definitely has nonconstant variance.
+
+```{r}
+plot(nfl$x8, residuals, xlab='x_8', ylab='Residuals', main='Residuals vs x_8')
+abline(0,0)
+```
+
+This plot is pretty good.
+
+#### d) Construct the partial regression plots for the model. Compare the plots to those of part c. Discuss the types of information the plots provide.
+```{r}
+nox2 <- lm(y ~ x7 + x8, data=nfl)
+nox2res <- nox2$residuals
+x2vs <- lm(x2 ~ x7 + x8, data=nfl)
+x2vsres <- x2vs$residuals
+plot(x2vsres, nox2res, main='Partial Regression of x_2')
+abline(0,0)
+```
+
+$x_2$ has a good linear relationship.
+
+```{r}
+nox7 <- lm(y ~ x2 + x8, data=nfl)
+nox7res <- nox7$residuals
+x7vs <- lm(x7 ~ x2 + x8, data=nfl)
+x7vsres <- x7vs$residuals
+plot(x7vsres, nox7res, main='Partial Regression of x_7')
+abline(0,0)
+```
+
+$x_7$ does not have a strong linear relationship.
+
+```{r}
+nox8 <- lm(y ~ x7 + x2, data=nfl)
+nox8res <- nox8$residuals
+x8vs <- lm(x8 ~ x7 + x2, data=nfl)
+x8vsres <- x8vs$residuals
+plot(x8vsres, nox8res, main='Partial Regression of x_8')
+abline(0,0)
+```
+
+$x_8$ has a good linear relationship.
+
+#### e) Compute the studentized residuals and the R-student residuals for the model. What information is converyed by these scaled residuals?
+```{r}
+rstandard(model)
+```
+
+```{r}
+library(MASS)
+studres(model)
+```
+
+These scaled residuals help find important points as well as outliers. The fist point may be an outliear as it has a relatively high values.
+
+### \#4.4 Using 3.5
+Previous work
+```{r}
+mpg <- table.b3
+model <- lm(y ~ x1 + x6, data=mpg)
+```
+
+#### a) Construct a normal probability plot of the residuals. Is there any problem with the normality assumption?
+```{r}
+residuals = model$residuals
+qqnorm(residuals, ylab='Residuals', xlab='Normal Scores', main='Normal Probability Plot - MPG')
+qqline(residuals)
+```
+
+This plot appears normal.
+
+#### b) Construct and interpret a plot of the residuals versus the predicted response
+```{r}
+predicted = predict(model)
+plot(predicted, residuals, xlab='Predicted Value', ylab='Residuals', main='Residuals vs Predicted')
+abline(0,0)
+```
+
+The pattern does not appear to be linear.
+
+#### c) Construct the partial regression plots for this model.
+```{r}
+nox1 <- lm(y ~ x6, data=mpg)
+nox1res <- nox1$residuals
+x1vs <- lm(x1 ~ x6, data=mpg)
+x1vsres <- x1vs$residuals
+plot(x1vsres, nox1res, main='Partial Regression of x_1')
+abline(0,0)
+```
+
+$x_1$ appears to show a linear pattern.
+
+```{r}
+nox6 <- lm(y ~ x1, data=mpg)
+nox6res <- nox6$residuals
+x6vs <- lm(x6 ~ x1, data=mpg)
+x6vsres <- x6vs$residuals
+plot(x6vsres, nox6res, main='Partial Regression of x_6')
+abline(0,0)
+```
+
+$x_6$ does not appear to show a pattern, it may be unnecessary.
+
+#### d) Compute the studentized residuals and the R-student residuals for the model. What information is converyed by these scaled residuals?
+```{r}
+rstandard(model)
+```
+
+It appears that 12 and 15 are close to being outliers, 22 is also high, but not as high.
+
+### \#4.15 Using 3.9
+Previous work
+```{r}
+NbOCl <- table.b6
+model <- lm(y ~ x1 + x4, data=NbOCl)
+```
+
+#### a) Construct a normal probability plot of the residuals. Is there any problem with the normality assumption?
+```{r}
+residuals = model$residuals
+qqnorm(residuals, ylab='Residuals', xlab='Normal Scores', main='Normal Probability Plot NbOCl')
+qqline(residuals)
+```
+
+This appears mostly normal but there is a slight problem.
+
+#### b) Construct and interpret a plot of the residuals versus the predicted response
+```{r}
+predicted = predict(model)
+plot(predicted, residuals, xlab='Predicted Value', ylab='Residuals', main='Residuals vs Predicted')
+abline(0,0)
+```
+
+There does not appear to be a linear pattern.
+
+#### c) Construct the partial regression plots for this model. Are some variables currently in the model not necessary?
+```{r}
+nox1 <- lm(y ~ x4, data=NbOCl)
+nox1res <- nox1$residuals
+x1vs <- lm(x1 ~ x4, data=NbOCl)
+x1vsres <- x1vs$residuals
+plot(x1vsres, nox1res, main='Partial Regression of x_1')
+abline(0,0)
+```
+
+$x_1$ may show a linear pattern.
+
+```{r}
+nox4 <- lm(y ~ x1, data=NbOCl)
+nox4res <- nox4$residuals
+x4vs <- lm(x4 ~ x1, data=NbOCl)
+x4vsres <- x4vs$residuals
+plot(x4vsres, nox4res, main='Partial Regression of x_4')
+```
+
+$x_4$ does not show a linear pattern.
+
+### \#4.17 Using 3.14
+Previous work
+```{r}
+viscosity <- table.b10
+model <- lm(y ~ x1 + x2, data=viscosity)
+```
+
+#### a) Construct a normal probability plot of the residuals. Is there any problem with the normality assumption?
+```{r}
+residuals = model$residuals
+qqnorm(residuals, ylab='Residuals', xlab='Normal Scores', main='Normal Probability Plot - Viscosity')
+qqline(residuals)
+```
+
+The plot does not appear to be normal.
+
+#### b) Construct and interpret a plot of the residuals versus the predicted response
+```{r}
+predicted = predict(model)
+plot(predicted, residuals, xlab='Predicted Value', ylab='Residuals', main='Residuals vs Predicted')
+abline(0,0)
+```
+
+There is definitely a nonlinear pattern.
+
+#### c) Compute the PRESS statistic for both this model and the second in 3.14. Based on this statistic, which model is most likely to provide better predictions of new data?
+```{r}
+residuals/(1-lm.influence(model)$hat)
+```
+
+```{r}
+tempmodel <- lm(y ~ x2, data=viscosity)
+tempres <- tempmodel$residuals
+tempres/(1-lm.influence(tempmodel)$hat)
+```
+
+The model without $x_1$ appears to have greater peaks and valleys so the original model with both $x_1$ and $x_2$ is prefered.

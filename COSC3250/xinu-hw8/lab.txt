@@ -1,0 +1,25 @@
+Superblock
+-root of tree like file systen
+-Contains
+	magic number (properly init disk)
+	freeblk_list (free block collector node)
+	-list of all unallocated blocks
+	-collector node contains 64 blocks
+		first is this block
+		second is next set
+		count is number of free blocks
+		array of 61 free blocks
+	-changes needs to be copied to disk
+		disk is array of blocks (0-255)
+		super block is block 0
+		directory block is block 1
+			-contains all file names (7 chars max)
+		some fields are different when in memory
+			-next is a struct in memory or a (block number) address in storage
+			-Pointer Swizzling
+		look at sb init or something to write that is the initizing for the system
+
+Handle if there is no free block list (every block is allocated)
+
+View disk hexdump -C disk.dat
+last 2 numbers are place, rest is blk num

@@ -1,0 +1,92 @@
+---
+title: "MATH 4780 - Homework 5"
+author: "Liam Fruzyna"
+date: "December 3rd, 2018"
+output: pdf_document
+---
+
+### \#7.2 A solid-fuel rocket propellant loses weight after it is produced. The following data are available:
+Dataset setup
+```{r}
+library(MPV)
+solid <- p7.2
+```
+
+#### a. Fit a second-order polynomial that expresses weight loss as a function of the number of months since production.
+```{r}
+fit_solid <- lm(y ~ x + I(x^2), data=solid)
+```
+
+#### b. Test for significance of regression.
+```{r}
+summary(fit_solid)
+```
+The model has very low p-values and F-statistic so it is significant.
+
+#### c. Test the hypothesis $H_0: \beta_2 = 0$. Comment on the need for the quadratic term in this model.
+```{r}
+anova(fit_solid)
+```
+It is significant as $F = \frac{4.607}{0} = \infty$
+
+#### d. Are there any potential hazards in extrapolating with this model?
+There could be some risk in extrapolating due to the model being quadratic.
+
+### \#8.3 Consider the delivery time data in Example 3.1. In Section 4.2.5 noted that these observations were collected in four cities.
+Dataset setup
+```{r}
+delivery <- p8.3
+delivery$city <- c(replicate(7, "San Diego"), replicate(10, "Boston"), replicate(6, "Austin"), replicate(2, "Minneapolis"))
+```
+
+#### a. Develop a model that relates delivery time y to cases $x_1$, distance $x_2$, and the city in which the delivery was made. Estimate the parameters of the model.
+```{r}
+fit_delivery <- lm(y ~ x1 + x2 + city, data=delivery)
+```
+
+#### b. Is there an indication that delivery site is an important variable?
+```{r}
+summary(fit_delivery)
+```
+No, the delivery site is insignificant.
+
+#### c. Analyze the residuals from this model. What conclusions can you draw regarding model adequacy?
+```{r}
+plot(fit_delivery, which=c(1,2))
+```
+There is definitely a problem with normality.
+
+### \#8.4 Consider the automobile gasoline mileage data in Table B.3
+Dataset setup
+```{r}
+gas <- table.b3
+```
+
+#### a. Build a linear regression model relating gasoline mileage y to engine displacement $x_1$ and the type of transmission $x_11$. Does the type of transmission significantly affect the mileage performance?
+```{r}
+fit_gas <- lm(y ~ x1 + x11, data=gas)
+summary(fit_gas)
+```
+There does not seem to be a significant impact from type of transmission ($x_11$).
+
+#### b. Modify the model developed in part a to include an interaction between engine displacement and the type of transmission. What conclusions can you draw about the effect of the type of transmission on gasoline mileage? Interpret the parameters in this model.
+```{r}
+fit_gas_2 <- lm(y ~ x1 + x11 + x1 * x11, data=gas)
+summary(fit_gas_2)
+```
+There does appear to be a increased influence of transmission when it is combined as an interaction. When using manual transmission there is a 0.117 decrease in MPG for every cubic inch of displacement. With an automatic transmission it is 0.035 ($x_1 + x_1:x_{11} = -0.117 - 0.082$) lower MPGs.
+
+### \#9.7 Consider the automobile gasoline mileage data in Table B.3
+
+#### a. Does the correlation matrix give any indication of multicollinearity?
+```{r}
+cor(table.b3)
+```
+There appears to be a problem with multicollinearity due to some of the high values between independent variables.
+
+#### b. Calculate the variance inflation factors and the condition number of $X'X$. Is there any evidence of multicollinearity?
+```{r}
+library(car)
+vif(lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11, data=table.b3))
+```
+There is evidence of multicollinearity as some of the VIFs are very high.

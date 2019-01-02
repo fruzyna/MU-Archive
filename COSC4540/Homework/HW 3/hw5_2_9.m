@@ -1,0 +1,45 @@
+% Liam Fruzyna
+% MATH 4540
+% Assignment 3
+
+format long
+
+% 5.2 9c) Calculate the approximation error of the composite trapezoid rule for
+% h = b-a, h/2^1,, h/2^2, ..., h/2^8 and plot.
+
+f = @(x) x * exp(x);
+
+trapezoid(f, 8, 0, 1);
+
+function[result] = trapezoid(f, n, a, b)
+    syms x;
+    real = int(f(x), 0, 1);
+    
+    results = zeros(1, n);
+    errors = zeros(1, n);
+    hs = zeros(1, n);
+    
+    for p=0:n
+        x0 = a;
+        x1 = b;
+        result = 0;
+        m = 2^p;
+        h = (x1 - x0) / m;
+        for i=1:m
+            x1 = x0 + h;
+            y0 = f(x0);
+            y1 = f(x1);
+            result = result + (h / 2) * (y0 + y1);
+            x0 = x1;
+        end
+        hs(p+1) = h;
+        results(p+1) = result;
+        errors(p+1) = double(abs(real - result));
+    end
+    
+    disp(results);
+    disp(errors);
+    loglog(hs, errors);
+    
+    slope = (errors(n) - errors(1)) / (hs(n) - hs(1))
+end

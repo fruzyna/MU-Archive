@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Restaurant Advisor</string>
+    <string name="title_home">Home</string>
+    <string name="title_user">Me</string>
+    <string name="title_search">Search</string>
+</resources>

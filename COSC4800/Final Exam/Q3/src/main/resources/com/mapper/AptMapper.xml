@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AptMapper">
+	
+	<resultMap id="ApartmentResult" type="Apartment">
+		<id property="anum" column="anum" />
+		<result property="atype" column="atype" />
+		<result property="numroom" column="numroom" />
+		<result property="buildingnum" column="buildingnum" />
+		<result property="floornum" column="floornum" />
+		<result property="available" column="available" />
+	</resultMap>
+	
+	<resultMap id="RentedByResult" type="RentedBy">
+		<id property="id" column="" />
+		<result property="cid" column="cid" />
+		<result property="anum" column="anum" />
+		<result property="startrent" column="startrent" />
+		<result property="rent" column="rent" />
+		<result property="periodrent" column="periodrent" />
+		<result property="deposit" column="deposit" />
+		<result property="balance" column="balance" />
+	</resultMap>
+
+	<select id="apts" resultMap="ApartmentResult">
+		SELECT anum, available FROM apartment
+	</select>
+	
+	<select id="isAvailable" resultMap="ApartmentResult">
+		SELECT anum, available FROM apartment WHERE anum = #{anum}
+	</select>
+	
+	<select id="info" resultMap="RentedByResult">
+		SELECT anum, rent, startrent FROM rentedby WHERE anum = #{anum}
+	</select>
+</mapper>

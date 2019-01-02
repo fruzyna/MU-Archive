@@ -1,0 +1,103 @@
+---
+title: "Math 4780 - Homework 4"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document:
+    df_print: paged
+---
+
+### \#5.2
+Dataset setup
+```{r}
+temps <- seq(273, 373, 10)
+pressures <- c(4.6, 9.2, 17.5, 31.8, 55.3, 92.5, 149.4, 233.7, 355.1, 525.8, 760)
+vp <- data.frame(Temperature=temps, Vapor_Pressure=pressures)
+```
+
+#### a. Plot a scatter diagram. Does it seem likely that a straight-line model will be adequate?
+```{r}
+plot(vp, main='Vapor Pressure vs Temperature')
+```
+
+No, it does not appear that a straight line mode will be adequate because the data is non-linear.
+
+#### b. Fit the straight-line model. Compute the summary statistics and the residual plots. What are your conclusions regarding the model adequacy?
+```{r}
+lm_vp <- lm(Vapor_Pressure ~ Temperature, data=vp)
+summary(lm_vp)
+plot(lm_vp, which=1)
+```
+
+The model is not accurate.
+
+#### c. From physical chemistry the Clausius-Clapeyron equation states that $ln(p_v) \propto -\frac{1}{T}$. Repeat part b using the appropriate transformation based on this information.
+```{r}
+trans_vp <- data.frame(Temperature=log(temps), Vapor_Pressure=log(pressures))
+plot(trans_vp, main='Vapor Pressure vs Temperature')
+
+lm_trans_vp <- lm(Temperature ~ Vapor_Pressure, data=trans_vp)
+summary(lm_trans_vp)
+plot(lm_trans_vp, which=1)
+```
+
+There is some improvement in the model with a log transformation.
+
+### \#5.5
+Dataset setup
+```{r}
+defects <- c(13, 16.1, 14.5, 17.8, 22, 27.4, 16.8, 34.2, 65.6, 49.2, 66.2, 81.2, 87.4, 114.5)
+weeks <- 4:17
+glass <- data.frame(Defects_Per_10k=defects, Weeks=weeks)
+plot(glass, main='Defects per 10K Units by Week')
+```
+
+#### a. Fit a straight-line regression model to the data and perform the standard tests for model adequacy.
+```{r}
+lm_glass <- lm(Defects_Per_10k ~ Weeks, data=glass)
+summary(lm_glass)
+plot(lm_glass, which=c(1,2))
+```
+
+There is a slight non-linear pattern to the residuals.
+
+#### b. Suggest an appropriate transformation to eliminate the problems encountered in part a. Fit the transformed model and check for adequacy.
+```{r}
+trans_glass <- data.frame(Defects_Per_10k=log(defects), Weeks=weeks)
+plot(trans_glass, main='Defects per 10K Units by Week')
+
+lm_trans_glass <- lm(Defects_Per_10k ~ Weeks, data=trans_glass)
+summary(lm_trans_glass)
+plot(lm_trans_glass, which=c(1,2))
+```
+
+The model appears to have improved by adding the natural log.
+
+### \#6.2 Perform a thorough influence analysis of the property valuation data given in B.4. Discuss your results.
+```{r}
+library(MPV)
+prop <- table.b4
+lm_prop <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8, data=prop)
+cooks.distance(lm_prop)
+```
+
+No points appear to be influential.
+
+### \#6.10 Formally show that $D_i=\frac{r_i}{p}\frac{h_{ii}}{1-h_{ii}}$
+Using $\hat\beta - \hat\beta_{(i)} =  \frac{(X'X)^{-1} x_i e_i}{1-h_{ii}}$
+
+$D_i = \frac{(\hat\beta_{(i)} - \hat\beta)' X'X (\hat\beta_{(i)} - \hat\beta)}{pMS_{Res}}$
+$= \frac{x_i(X'X)^{-1}X'X(X'X)^{-1}x_ie_i^2}{(1-h_{ii})^2pMS_{Res}}$
+$= (\frac{e_i}{1-h_{ii}})^2 (\frac{h_{ii}}{pMS_{Res}})$
+$= \frac{e_i^2}{MS_{Res}(1-h_{ii})} \frac{1}{p} \frac{h_{ii}}{1-h_{ii}}$
+$= \frac{r_i^2}{p} \frac{h_{ii}}{1-h_{ii}}$
+
+### \#6.15 Table B.14 contains data converning the transient points of an electronic inverter. Fit a regression model to all 25 observations but only use $x_1 - x_4$ as the regressors. Investigate this model for influential observations and comment on your findings.
+```{r}
+invt <- table.b14
+lm_invt <- lm(y ~ x1 + x2 + x3 + x4, data=invt)
+cooks.distance(lm_invt)
+```
+
+Points 2 and 4 are most influential.

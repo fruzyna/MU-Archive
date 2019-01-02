@@ -1,0 +1,123 @@
+---
+title: "Math 4780 - Homework 1"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+### \#2.1
+Done by hand originally
+Load data from book
+```{r}
+y1 <- c(10,11,11,13,10,11,10,11,4,2,7,10,9,9,6,5,5,5,6,4,3,3,4,10,6,8,2,0)
+x1 <- c(2205,2096,1847,1903,1457,1848,1564,1821,2577,2476,1984,1917,1761,1709,1901,2288,2072,2861,2411,2289,2203,2592,2053,1979,2048,1786,2876,2560)
+```
+
+#### a) fit linear regression
+```{r}
+lm1 <- lm(y1~x1)
+lm1
+```
+
+#### b) anova table
+```{r}
+anova(lm1)
+```
+
+#### c) 95% confidence interval of the slope
+```{r}
+confi1 <- confint(lm1, level=0.95)
+confi1[2,]
+```
+
+#### d) percent of total variability in the model
+```{r}
+summary(lm1)$r.squared
+```
+
+#### e) 95% confidence interval of the intercept
+```{r}
+confi1[1,]
+```
+
+### \#2.4
+Load data from book
+```{r}
+y4 <- c(18.9,17,20,18.25,20.07,11.2,22.12,21.47,34.7,30.4,16.5,36.5,21.5,19.7,20.3,17.8,14.39,14.89,17.8,16.41,23.54,21.47,16.59,31.9,29.4,13.27,23.9,19.73,13.9,13.27,13.77,16.5)
+x4 <- c(350,350,250,351,225,440,231,262,89.7,96.9,350,85.3,171,258,140,302,500,440,350,318,231,360,400,96.9,140,460,133.6,318,351,351,360,350)
+```
+
+#### a) fit linear regression
+```{r}
+lm4 <- lm(y4~x4)
+lm4
+```
+
+#### b) anova table
+```{r}
+anova(lm4)
+```
+
+#### c) total variability is mpg is accounted for
+```{r}
+summary(lm4)$r.squared
+```
+
+#### d) 95% confidence interval at 275
+```{r}
+confi4 <- predict(lm4, data.frame(x4=275), interval='confidence')
+confi4
+```
+
+#### e) 95% prediction interval at 275
+```{r}
+predi4 <- predict(lm4, data.frame(x4=275), interval='prediction')
+predi4
+```
+
+#### f) compare the 2 intervals
+```{r}
+confi4
+predi4
+```
+The prediction interval is much larger than the confidence interval. This is because it must account for both the uncertanty of the mean (confidence interval) and data scatter.
+
+### \#2.18
+Load data from book
+```{r}
+y18 <- c(21.9,60.8,78.6,92.4,50.7,21.4,40.1,40.8,10.4,88.9,12,29.2,38,10,12.3,23.4,71.1,4.4)
+x18 <- c(22.9,84.2,40.1,185.9,26.9,20.4,166.2,27,45.6,154.9,5,49.7,26.9,5.7,7.6,9.2,32.4,6.1)
+```
+
+#### a) fit linear regression
+```{r}
+lm18 <- lm(y18~x18)
+lm18
+```
+
+#### b) is there a relationship between x and y
+```{r}
+summary(lm18)
+```
+The p-value is very low so the model is accurate but the R^2 value is far too low be be considered significant.
+
+#### c) 95% confidence and prediction bands
+```{r}
+confint(lm18, level=0.95)
+predi18 <- predict(lm18, interval='prediction')
+predi18[3,1] - predi18[1,1]
+predi18[1,1] - predi18[2,1]
+```
+
+#### d) 95% confidence and prediction intervals for MCI
+```{r}
+predict(lm18, data.frame(x18=26.9), interval='confidence')
+predict(lm18, data.frame(x18=26.9), interval='prediction')
+```
+
+### Prove $SS_R = \hat \beta_1 S_{xy}$
+$$SS_{Res} = \sum_{i=1}^n e_i^2 = \sum_{i=1}^n (y_i - \hat y_i)^2 = SS_T - \hat \beta_1 S_{xy}$$
+$$SS_T = SS_R + SS_{Res}$$
+$$SS_{Res} = SS_T - SS_R = SS_T - \hat \beta_1 S_{xy}$$
+$$SS_R = \hat \beta_1 S_{xy}$$

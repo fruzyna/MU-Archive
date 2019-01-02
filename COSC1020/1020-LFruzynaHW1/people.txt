@@ -1,0 +1,3 @@
+Bill 15 male
+Sally 28 female
+Ellen 38 female

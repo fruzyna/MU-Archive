@@ -1,0 +1,20 @@
+Atomicity
+	Control interupts with enable(), disable(), restore() in intr.S
+Semaphores
+	Test cases to learn semaphore.h, semcreate.c, signal.c, wait.c
+Producers and Consumers
+	Bounded-Buffer in textbook section 5.6.1 (ch5 pp3 Producer-Consumer Problem)
+	Fill out todos in testcases.c
+Synchronization Hardware
+	Build mutexAcquire() and mutexRelease() in mutex.c using bounded-waiting algoritm in textbook figure 5.7
+	Use to prevent producers/consumers from breaking up kprintf() during prints
+	Basically test with long ass printouts
+Testing Questions
+	Does it matter which process runs first, the producer or the consumer?
+	What happens when there are multiple producers and consumers?
+	What happens when the producer(s) priority is higher than the consumer(s)? Vice-versa?
+	Can your bounded-wait mutex subsystem replace the semaphore subsystem?
+	Under what conditions in the embedded operating system will the mutex subsystem not work as designed?
+	Can you deadlock your producer and consumer?
+
+

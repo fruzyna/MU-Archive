@@ -1,0 +1,3 @@
+true.
+
+List = [charge(norma, speeding), charge(andy, stopsign), charge(edward, leftturn), charge(olivia, redlight)] 

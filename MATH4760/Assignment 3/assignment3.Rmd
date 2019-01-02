@@ -1,0 +1,128 @@
+---
+title: "MATH 4760 Assignment 3"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+---  
+---
+
+#### 1) Explain what causal and invertible processes are. Why do we need them?
+##### Causal Process
+A process that does not depend on the future. Causal make it possible to forcast future values.
+
+##### Invertible Process
+A process represented by an infinite AR model. Invertibility makes it possible to estimate parameters.
+
+---
+
+#### 2) Determine if the following processes are causal.
+##### a) $X_t = 0.8X_{t-1} - 0.9X_{t-2} + Z_t$
+$(1 - 0.8B + 0.9B^{2})X_t$
+
+$\phi (z) = 1 - 0.8z + 0.9z^{2} = 0$
+```{r}
+abs(polyroot(c(1, -0.8, 0.9)))
+```
+$z = 1.054 > 1$ Therefore $X_t$ is causal.
+
+---
+
+##### b) $X_t = 1.2X_{t-1} + 0.25X_{t-2} + Z_t$
+$(1 - 1.2B - 0.25B^{2})X_t$
+
+$\phi (z) = 1 - 1.2z - 0.25z^{2} = 0$
+```{r}
+abs(polyroot(c(1, -1.2, -0.25)))
+```
+$z = 0.724 < 1$ Therefore $X_t$ is not causal.
+
+---
+
+##### c) $X_t = 0.8X_{t-1} - 0.5X_{t-2} + 0.4X_{t-3} + Z_t$
+$(1 - 0.8B + 0.5B^{2} - 0.4B^3)X_t$
+
+$\phi (z) = 1 - 0.8z + 0.5z^{2} - 0.4z^3 = 0$
+```{r}
+abs(polyroot(c(1, -0.8, 0.5, -0.4)))
+```
+$z = 1.250 > 1$ and $z = 1.414 > 1$ Therefore $X_t$ is causal.
+
+---
+
+#### 3) Simulate 500 data points of the AR(3) process of question 2c, draw the time series plot, ACF, and PACF.
+```{r}
+# X_t = 0.8X_t-1 - 0.5X_t-2 + 0.4X_t-3 + Z_t
+x = arima.sim(list(order=c(3,0,0), ar=c(0.8, -0.5, 0.4)), n=500)
+par(mfrow=c(3,1))
+plot.ts(x)
+acf(x)
+pacf(x)
+```
+
+##### Discuss what you can conclude from the ACF and PACF pattern.
+The PACF cuts off after lag = 3 so because it is an AR function p = 3. Also because the ACF decreases exponentially the process is causal. Thus it is also stationary.
+
+---
+
+#### 4) Determine if the following processes are invertible.
+##### a) $X_t = Z_t - 0.5Z_{t-1} + 0.8Z_{t-2}$
+$(1 - 0.5B + 0.8B^{2})Z_t$
+
+$\theta (z) = 1 - 0.5z + 0.8z^{2}$
+```{r}
+abs(polyroot(c(1, -0.5, 0.8)))
+```
+$z = 1.118 > 1$ Therefore $X_t$ is invertible.
+
+---
+
+##### b) $X_t = Z_t + 1.5Z_{t-2}$
+$(1 + 1.5B^{2})Z_t$
+
+$\theta (z) = 1 + 1.5z^{2}$
+```{r}
+abs(polyroot(c(1, 0, 1.5)))
+```
+$z = 0.817 < 1$ Therefore $X_t$ is not invertible.
+
+---
+
+##### c) $X_t = Z_t - 0.8Z_{t-1} + 1.5Z_{t-2} - 1.8Z_{t-3}$
+$(1 - 0.8B + 1.5B^{2} - 1.8B^3)Z_t$
+
+$\theta (z) = 1 - 0.8z + 1.5z^{2} - 1.8z^3$
+```{r}
+abs(polyroot(c(1, -0.8, 1.5, -1.8)))
+```
+$z = 0.758 < 1$ and $z = 0.968 < 1$ Therefore $X_t$ is not invertible.
+
+---
+
+#### 5) Simulate 500 data points of the MA(3) process of question 4c. Plot the data and its ACF.
+```{r}
+# X_t = Z_t - 0.8X_t-1 + 1.5X_t-2 - 1.8X_t-3
+x = arima.sim(list(order=c(0,0,3), ma=c(-0.8, 1.5, -1.8)), n=500)
+par(mfrow=c(2,1))
+plot.ts(x)
+acf(x)
+```
+
+##### Explain the behavior through ACF.
+Since it is a moving average process q = 3 because the ACF cuts off at 3.
+
+---
+
+#### 6) Simulate 500 data points of the ARIMA process $X_t = 0.8X_{t-1} - 0.5X_{t-2} + 0.4X_{t-3} + Z_t - 0.8Z_{t-1} + 1.5Z_{t-2} - 1.8Z_{t-3}$. Draw its plot, ACF, and PACF.
+```{r}
+x = arima.sim(list(order=c(3,0,3), ar=c(-0.8, -0.5, 0.4), ma=c(-0.8, 1.5, -1.8)), n=500)
+par(mfrow=c(3,1))
+plot.ts(x)
+acf(x)
+pacf(x)
+```
+
+##### Explain the order of the ARIMA through its ACF and PACF.
+The order of the ARIMA should be p = 3 because the PACF appears to cut off at 3.

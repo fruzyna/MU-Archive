@@ -1,0 +1,6 @@
+course(120,english,johnson,lecturn)
+course(200,science,smith,models)
+course(105,math,witherspoon,blackboard)
+course(233,history,adams,projector)
+true.
+

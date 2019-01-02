@@ -1,0 +1,50 @@
+---
+title: "Final Part 1"
+author: "Liam Fruzyna"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+```{r}
+# Liam Fruzyna
+# MATH 4760
+# Final Exam Part 1
+
+library(astsa)
+```
+
+#### Consider the quarterly inflation data "qinfl"
+
+#### 1) For ARIMA model forecast next the 12 quarters' inflations with graph sowing the forecast values with its 95% confidence intervals. 
+
+```{r}
+plot.ts(qinfl)
+acf2(qinfl) # Needs to be differenced
+dinfl = diff(qinfl)
+acf2(dinfl)
+
+sarima(qinfl, 1, 1, 3)
+sarima.for(qinfl, 12, 1, 1, 3)
+
+sarima(qinfl, 2, 1, 2, P=0, D=0, Q=2, S=4)
+sarima.for(qinfl, 12, 2, 1, 2, P=0, D=0, Q=2, S=4)
+```
+
+#### 2) Fit the state-space model $x_t = \Phi x_{t-1} + z_t$ $y_t = x_t + v_t$ $i = 1,2,...,n$ where ${z_t}$ and ${v_t}$ are independent white noise with variances $\sigma ^2$ and $\sigma _v ^2$. assume that $x_0 ~ N(\mu _0, \Sigma _0)$
+```{r}
+
+```
+##### a) Fit the smoothed $x_t ^n$ with figure showing the plot of msooth qinfl and its 95% confidence intervals.
+```{r}
+```
+##### b) Forecast the next 12 quarters' inflations with a graph showing the forecast values with its 95% confidence intervals.
+```{r}
+```
+
+### 3) Compare the results of the ARIMA and state-space models giving their pros and cons.
+Any ARIMA model can be represented in a state-space form, however, only simple state-space models can be represented in ARIMA form.
+ARIMA is good for approximations, it is never the exact model.
+State-space requires writing down an actual model.
+State-space allows for a greater variety of formulations, but models can get complicated.
+State-space allows exact modelling but that can cause instability.

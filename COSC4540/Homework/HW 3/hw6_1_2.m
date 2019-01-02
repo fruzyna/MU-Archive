@@ -1,0 +1,24 @@
+% Liam Fruzyna
+% MATH 4540
+% Assignment 3
+
+format long
+
+% 6.1 2c) Plot the Euler's method approximate solutions for the IVP y' =
+% 2(t + 1)y from 0 to 1 for step sizes h = 0.1, 0.05, 0.025 and the exact.
+
+plot([0.1, 0.05, 0.025], [euler(0, 1, 0.1, 1), euler(0, 1, 0.05, 1), euler(0, 1, 0.025, 1)])
+
+function [result] = euler(a, b, h, y0)
+    result = 0;
+    n = (b - a) / h;
+    t = zeros(1, n+1);
+    y = zeros(1, n+1);
+    t(1) = a;
+    y(1) = y0;
+    for i=1:n
+        t(i+1) = t(i) + h;
+        result = y(i) + h * (2 * (t(i) + 1) * y(i));
+        y(i+1) = result;
+    end
+end

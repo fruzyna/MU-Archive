@@ -1,0 +1,140 @@
+---
+title: "MATH 4780 - Project"
+author: "Liam Fruzyna"
+date: "December 2, 2018"
+output:
+  html_document:
+    df_print: paged
+---
+
+### \#1 The quality of Point Noir wine is thought to be related to the properties of clarity, aroma, body, flavor, and oakiness. Data for 38 wines are given in Table B.11.
+```{r}
+library(MPV)
+wine <- table.b11
+```
+
+#### a. Fit a multiple linear regression model relating wine quality to these regressors.
+```{r}
+lm_wine <- lm(Quality ~ Clarity + Aroma + Body + Flavor + Oakiness, data=wine)
+summary(lm_wine)
+```
+
+#### b. Test for significance of regression. What conclusions can you draw?
+> Multiple R-squared:  0.7206,	Adjusted R-squared:  0.6769
+
+> F-statistic: 16.51 on 5 and 32 DF,  p-value: 4.703e-08
+
+The p-value is very low so the regression appears to be significant. However, it does not appear that all regressors are significant.
+
+#### c. Use t-tests to assess the contribution of each regressor to the model. Discuss your findings.
+Flavor is the most significant regressor. With oakiness being less significant and aroma being somewhat significant.
+
+#### d. Calculate $R^2$ and $R_{adj}^2$ for the linear regression model relating wine quality to aroma and flavor. Discuss your results.
+> Multiple R-squared:  0.7206,	Adjusted R-squared:  0.6769
+
+```{r}
+lm_wine_2 <- lm(Quality ~ Aroma + Flavor, data=wine)
+summary(lm_wine_2)
+```
+> Multiple R-squared:  0.6586,	Adjusted R-squared:  0.639
+
+There is a slight decrease in quality in the model. This appears to be because aroma and flavor were the previously most significant values, but the others were still somewhat significant.
+
+#### e. Find a 95% CI for the regression coefficient for flavor for both models in part d. Discuss any differences.
+```{r}
+confint(lm_wine, "Flavor", level=0.95)
+confint(lm_wine_2, "Flavor", level=0.95)
+```
+The confidence interval appears to have shrunk a little bit on each side. This is likely because removing the lesser significant variables resulted in a less noisy prediction.
+
+
+### \#2 Consider the kinematic viscosity data in Table B.10.
+```{r}
+viscosity <- table.b10
+```
+
+#### a. Fit a linear regression model relating y with $x_1$ and $x_2$. Perform a thorough residual analysis.
+```{r}
+lm_viscosity <- lm(y ~ x1 + x2, data=viscosity)
+summary(lm_viscosity)
+plot(lm_viscosity, which=c(1,2))
+```
+
+The model appears to be significant but there appears to still be a trend in the data.
+  
+#### b. Identify the most appropriate transformation for these data. Fit this model and repeat the residual analysis. What is your conclusion?
+```{r}
+lm_viscosity_2 <- lm(y ~ sqrt(x1 + x2), data=viscosity)
+summary(lm_viscosity_2)
+plot(lm_viscosity_2, which=c(1,2))
+```
+
+
+### \#3 Consider the gasoline mileage performance data in Table B.3.
+```{r}
+mpg <- table.b3
+```
+
+#### a. Build a linear regression model relating gasoline mileage y to vehicle weight $x_{10}$ and the type of transmission $x_{11}$ . Does the type of transmission significantly affect the mileage performance?
+```{r}
+lm_mpg <- lm(y ~ x10 + x11, data=mpg)
+summary(lm_mpg)
+```
+
+#### b. Modify the model developed in part a to include an interaction between vehicle weight and the type of transmission. What conclusions can you draw about the effect of the type of transmission on gasoline mileage? Interpret the parameters in this model.
+```{r}
+lm_mpg_2 <- lm(y ~ x10 + x11 + x10*x11, data=mpg)
+summary(lm_mpg_2)
+```
+
+#### c. Calculate the correlation matrix of $x_1 = (x_1 , x_2 , x_3 , x_4 , x_5 , x_6 , x_7 , x_8 , x_9 , x_{10})$. Does the correlation matrix give any indication of multicollinearity among $x_1$ to $x_10$?
+```{r}
+mpg_2 <- mpg
+mpg_2$x11 <- NULL
+library(car)
+cor(mpg_2)
+```
+There does appear to be correlation within the dataset.
+
+#### d. Building a linear regression model relating gasoline mileage y to all the eleven regressors. Calculate the variance inflation. Is there any evidence of multicollinearity?
+```{r}
+lm_mpg_3 <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11, data=mpg)
+vif(lm_mpg_3)
+```
+There is definitely evidence of multicollinearity for x1, x2, x3, x7, x8, and x10.
+
+#### e. Use the all-possible-regressions approach to find an appropriate regression model. Which subset model do you recommend?
+```{r}
+library(leaps)
+all_mpg <- regsubsets(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11, data=mpg, method='exhaustive')
+plot(all_mpg)
+```
+
+It appears the a model containing only $x_1$ is most appropriate.
+
+#### f. Use forward selection to specify a subset regression model.
+```{r}
+forward_mpg <- regsubsets(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11, data=mpg, method='forward')
+plot(forward_mpg)
+```
+
+It appears the a model containing only $x_1$ is most appropriate.
+
+#### g. Use backward elimination to specify a subset regression model.
+```{r}
+backward_mpg <- regsubsets(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11, data=mpg, method='backward')
+plot(backward_mpg)
+```
+
+It appears the a model using $x_5$, $x_8$, and $x_10$ is most appropriate.
+
+#### h. Use stepwise regression to specify a subset regression model.
+```{r}
+step_mpg <- regsubsets(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11, data=mpg, method='seqrep')
+plot(step_mpg)
+```
+
+It appears the a model containing only $x_1$ is most appropriate.
+
+#### i. Compare and contrast the models produced by the variable selection strategies in parts e-h.
+All of the methods but one suggested that only $x_1$ is used. This is probably because $x_1$ appears to be very multicollinear. Backwards elimination starts by iteratively removing insignicant terms and 1 didn't make the other terms more significant so it was easier to remove 1 rather than 3.
