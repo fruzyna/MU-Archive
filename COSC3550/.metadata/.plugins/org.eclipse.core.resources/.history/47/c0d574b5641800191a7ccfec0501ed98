@@ -1,0 +1,62 @@
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
+import javafx.stage.Stage;
+
+public class Game extends Application
+{
+
+	public static void main(String[] args)
+	{
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception
+	{
+		stage.setTitle("Practice");
+		
+		Group root = new Group();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		
+		Canvas canvas = new Canvas(500, 500);
+		root.getChildren().add(canvas);
+		
+		GraphicsContext paint = canvas.getGraphicsContext2D();
+		render(paint);
+		
+		stage.show();
+	}
+	
+	void render(GraphicsContext paint)
+	{
+		paint.setFill(Color.WHITE);
+		paint.fillRect(0, 0, 500, 500);
+		
+		// draw a thicker line
+		paint.setStroke(Color.BLACK);
+		paint.setLineWidth(5);
+		paint.strokeLine(100, 100, 400, 400);
+		
+		// draw a filled triangle
+		paint.setFill(Color.GREEN);
+		double triangleX[] = {50, 50, 150};
+		double triangleY[] = {350, 450, 450};
+		paint.fillPolygon(triangleX, triangleY, 3);
+		
+		// draw a dotted line
+		double dashes[] = {50, 50, 50, 50};
+		paint.setLineDashes(dashes);
+		paint.strokeLine(100, 400, 400, 100);
+		
+		// draw a infinity symbol
+		paint.setLineDashes(1);
+		paint.strokeArc(350, 150, 100, 50, 0, 360, ArcType.CHORD);
+	}
+
+}

@@ -1,0 +1,56 @@
+package VisitorPkg;
+
+import AbSyn.*;
+
+public interface ValueVisitor {
+  public Object visit(Access n);
+  public Object visit(AccessStmt n);
+  public Object visit(And n);
+  public Object visit(ArrayPut n);
+  public Object visit(Assign n);
+  public Object visit(BooleanType n);
+  public Object visit(ClassDec n);
+  public Object visit(ClassType n);
+  public Object visit(Create n);
+  public Object visit(CreateIntArray n);
+  public Object visit(Equal n);
+  public Object visit(False n);
+  public Object visit(From n);
+  public Object visit(GreaterEqual n);
+  public Object visit(GreaterThan n);
+  public Object visit(IdExpr n);
+  public Object visit(If n);
+  public Object visit(IfElse n);
+  public Object visit(IntArrayType n);
+  public Object visit(IntDivide n);
+  public Object visit(IntegerType n);
+  public Object visit(Item n);
+  public Object visit(LastClassDecList n);
+  public Object visit(LastExprList n);
+  public Object visit(LastMethodDecList n);
+  public Object visit(LastStmtList n);
+  public Object visit(LastVarDecList n);
+  public Object visit(LessEqual n);
+  public Object visit(LessThan n);
+  public Object visit(Lower n);
+  public Object visit(MethodDec n);
+  public Object visit(Minus n);
+  public Object visit(Not n);
+  public Object visit(NotEqual n);
+  public Object visit(NumberExpr n);
+  public Object visit(Or n);
+  public Object visit(PairClassDecList n);
+  public Object visit(PairExprList n);
+  public Object visit(PairMethodDecList n);
+  public Object visit(PairStmtList n);
+  public Object visit(PairVarDecList n);
+  public Object visit(Plus n);
+  public Object visit(Program n);
+  public Object visit(PutInteger n);
+  public Object visit(PutString n);
+  public Object visit(RootClass n);
+  public Object visit(Times n);
+  public Object visit(True n);
+  public Object visit(Upper n);
+  public Object visit(VarDec n);
+}

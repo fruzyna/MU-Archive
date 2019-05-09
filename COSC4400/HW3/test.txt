@@ -1,0 +1,11 @@
+INTEGER BOOLEAN ARRAY
+:= + - * // ( ) [ ] . @ !! , ; :
+<= >= < > = /= not and or true false
+if then else from until loop is do end
+local require ensure
+class method attribute creation
+-- comments are ignored
+make io.put_integer io.put_string put item result lower upper
+0 1 2 3 4 5 6 7 8 9 10 100 1000
+a abc abc123 A aBc123 a_B_c_1_2_3
+"this is a string" "new %N line" "50%% of 10 is 5" "%"quoted quote%""

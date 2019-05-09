@@ -1,0 +1,227 @@
+/*
+ * Liam Fruzyna
+ * COSC 4400
+ * Assignment p4
+ * Gustave Parser
+ */
+
+package ParsePkg;
+
+import java_cup.runtime.*;
+import AbSyn.*;
+import VisitorPkg.*;
+
+parser code {:
+
+  /* This code will compute the parse tree and return it.
+   */
+  public Program getTree() throws java.lang.Exception {
+    Symbol s = debug_parse();
+    return (Program)(s.value);
+  }
+
+  public void syntax_error(Symbol token) {
+    report_error("Syntax error with input symbol "+token, null);
+  }
+:};
+
+terminal INT, BOOL, ARRAY;
+terminal ASSIGN, PLUS, MINUS, MULT, DIV, LPAREN, RPAREN, LSB, RSB, DOT, AT, BANG, SEP, SEMIC, COLON;
+terminal LTE, GTE, LT, GT, EQ, NEQ, NOT, AND, OR, TRUE, FALSE;
+terminal IF, THEN, ELSE, FROM, UNTIL, LOOP, IS, DO, END;
+terminal LOCAL, REQ, ENSURE;
+terminal CLASS, METHOD, ATTRIB, CREATE;
+terminal MAKE, PUTINT, PUTSTR, PUT, ITEM, LOW, UP;
+terminal String STRING_LITERAL;
+terminal Integer NUMBER;
+terminal String ID;
+
+non terminal Program		program;
+non terminal RootClass		rootclass;
+non terminal ClassDecList	classdecs;
+non terminal ClassDec		classdec;
+non terminal VarDecList		optvardecs;
+non terminal VarDecList		vardecs;
+non terminal VarDec			vardec;
+non terminal VarDecList		optlocals;
+non terminal MethodDecList	optmethoddecs;
+non terminal MethodDecList	methoddecs;
+non terminal MethodDec		methoddec;
+non terminal VarDecList		optformals;
+non terminal VarDecList		formals;
+non terminal Type			opttype;
+non terminal Expr			optrequire;
+non terminal Expr			optensure;
+non terminal Type			type;
+non terminal StmtList		stmts;
+non terminal Stmt			stmt;
+non terminal Expr			expr;
+non terminal ExprList		optparams;
+non terminal ExprList		exprs;
+
+precedence left NOT, AND, OR;
+precedence nonassoc LTE, GTE, LT, GT, EQ, NEQ;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV;
+
+start with program;
+
+program ::= rootclass:r classdecs:cl
+			{: RESULT = new Program(r, cl); :};
+
+rootclass ::= CLASS ID:n CREATE MAKE optvardecs:vl METHOD MAKE IS optlocals:ll DO stmts:sl END methoddecs:ml END
+			{: RESULT = new RootClass(n, vl, ll, sl, ml); :};
+
+classdecs ::= classdec:c classdecs:cl
+			{: if(cl == null) RESULT = new LastClassDecList(c);
+				else RESULT = new PairClassDecList(c, cl); :}
+		|	{: RESULT = null; :};
+
+classdec ::= CLASS ID:n optvardecs:vl optmethoddecs:ml END
+			{: RESULT = new ClassDec(n, vl, ml); :};
+
+optvardecs ::= ATTRIB vardecs:vl
+			{: RESULT = vl; :}
+		|	{: RESULT = null; :};
+
+vardecs ::= vardec:v vardecs:vl
+			{: if(vl == null) RESULT = new LastVarDecList(v);
+				else RESULT = new PairVarDecList(v, vl); :}
+		|	{: RESULT = null; :};
+   
+vardec ::= ID:n COLON type:t
+			{: RESULT = new VarDec(n, t); :};
+
+optlocals ::= LOCAL vardecs:vl
+			{: RESULT = vl; :}
+		|	{: RESULT = null; :};
+  
+optmethoddecs ::= METHOD methoddecs:ml
+			{: RESULT = ml; :}
+		|	{: RESULT = null; :};
+
+methoddecs ::= methoddec:m methoddecs:ml
+			{: if(ml == null) RESULT = new LastMethodDecList(m);
+				else RESULT = new PairMethodDecList(m, ml); :}
+		|	{: RESULT = null; :};
+
+methoddec ::= ID:n optformals:fl opttype:t IS optrequire:r optlocals:ll DO stmts:sl optensure:e END
+			{: RESULT = new MethodDec(n, fl, t, r, ll, sl, e); :};
+
+optformals ::= LPAREN formals:fl RPAREN
+			{: RESULT = fl; :}
+		|	{: RESULT = null; :};
+        
+formals ::= vardec:v SEMIC formals:vl
+			{: RESULT = new PairVarDecList(v, vl); :}
+		| vardec:v
+			{: RESULT = new LastVarDecList(v); :};
+
+opttype ::= COLON type:t
+			{: RESULT = t; :}
+		|	{: RESULT = null; :};
+
+optrequire ::= REQ expr:e
+			{: RESULT = e; :}
+		|	{: RESULT = null; :};
+
+optensure ::= ENSURE expr:e
+			{: RESULT = e; :}
+		|	{: RESULT = null; :};
+ 
+type ::= INT
+			{: RESULT = new IntegerType(); :}
+		| BOOL
+			{: RESULT = new BooleanType(); :}
+		| ARRAY LSB INT RSB
+			{: RESULT = new IntArrayType(); :}
+		| ID:n
+			{: RESULT = new ClassType(n); :};
+   
+stmts ::= stmts:sl stmt:s
+			{: if(sl == null) RESULT = new LastStmtList(s);
+				else RESULT = new PairStmtList(s, sl); :}
+		|	{: RESULT = null; :};
+
+stmt ::= ID:n ASSIGN expr:e
+			{: RESULT = new Assign(n, e); :}
+		| IF expr:e THEN stmts:sl END
+			{: RESULT = new If(e, sl); :}
+		| IF expr:e THEN stmts:slt ELSE stmts:slf END
+			{: RESULT = new IfElse(e, slt, slf); :}
+		| FROM stmts:slf UNTIL expr:e LOOP stmts:sll END
+			{: RESULT = new From(slf, e, sll); :}
+		| ID:n optparams:pl
+			{: RESULT = new AccessStmt(null, n, pl); :}
+		| ID:c DOT ID:m optparams:pl
+			{: RESULT = new AccessStmt(c, m, pl); :}
+		| PUTINT LPAREN expr:e RPAREN
+			{: RESULT = new PutInteger(e); :}
+		| PUTSTR LPAREN STRING_LITERAL:s RPAREN
+			{: RESULT = new PutString(s); :}
+		| ID:n DOT PUT LPAREN expr:p SEP expr:e RPAREN
+			{: RESULT = new ArrayPut(n, p, e); :}
+		| BANG ID:n DOT MAKE LPAREN expr:el SEP expr:eu RPAREN
+			{: RESULT = new CreateIntArray(n, el, eu); :}
+		| BANG ID:n
+			{: RESULT = new Create(n); :};
+     
+expr ::= expr:e1 PLUS expr:e2
+			{: RESULT = new Plus(e1, e2); :}
+		| expr:e1 MINUS expr:e2
+			{: RESULT = new Minus(e1, e2); :}
+		| expr:e1 MULT expr:e2
+			{: RESULT = new Times(e1, e2); :}
+		| expr:e1 DIV expr:e2
+			{: RESULT = new IntDivide(e1, e2); :}
+		| MINUS expr:e
+			{: RESULT = new Minus(new NumberExpr(0), e); :}
+		| LPAREN expr:e RPAREN
+			{: RESULT = e; :}
+		| ID:n
+			{: RESULT = new IdExpr(n); :}
+		| NUMBER:v
+			{: RESULT = new NumberExpr(v); :}
+		| expr:e1 EQ expr:e2
+			{: RESULT = new Equal(e1, e2); :}
+		| expr:e1 NEQ expr:e2
+			{: RESULT = new NotEqual(e1, e2); :}
+		| expr:e1 LT expr:e2
+			{: RESULT = new LessThan(e1, e2); :}
+		| expr:e1 GT expr:e2
+			{: RESULT = new GreaterThan(e1, e2); :}
+		| expr:e1 LTE expr:e2
+			{: RESULT = new LessEqual(e1, e2); :}
+		| expr:e1 GTE expr:e2
+			{: RESULT = new GreaterEqual(e1, e2); :}
+		| NOT expr:e
+			{: RESULT = new Not(e); :}
+		| expr:e1 AND expr:e2
+			{: RESULT = new And(e1, e2); :}
+		| expr:e1 OR expr:e2
+			{: RESULT = new Or(e1, e2); :}
+		| TRUE
+			{: RESULT = new True(); :}
+		| FALSE
+			{: RESULT = new False(); :}
+		| ID:n DOT ITEM LPAREN expr:e RPAREN
+			{: RESULT = new Item(n, e); :}
+		| ID:n AT expr:e
+			{: RESULT = new Item(n, e); :}
+		| ID:n DOT LOW
+			{: RESULT = new Lower(n); :}
+ 		| ID:n DOT UP
+			{: RESULT = new Upper(n); :}
+		| ID:n LPAREN exprs:el RPAREN
+			{: RESULT = new Access("obj", n, el); :}
+		| ID:c DOT ID:m optparams:pl
+			{: RESULT = new Access(c, m, pl); :};
+
+optparams ::= LPAREN exprs:el RPAREN
+			{: RESULT = el; :}
+		|	{: RESULT = null; :};
+     
+exprs ::= expr:e SEP exprs:el
+			{: RESULT = new PairExprList(e, el); :}
+		| expr:e
+			{: RESULT = new LastExprList(e); :};

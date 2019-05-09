@@ -1,0 +1,141 @@
+package ParsePkg;
+
+import java_cup.runtime.*;
+import AbSyn.*;
+import VisitorPkg.*;
+
+parser code {:
+
+  /* This code will compute the parse tree and return it.
+   */
+  public Program getTree() throws java.lang.Exception {
+    Symbol s = parse();
+    return (Program)(s.value);
+  }
+
+  public void syntax_error(Symbol token) {
+    report_error("Syntax error with input symbol "+token, null);
+  }
+:};
+
+terminal INT, BOOL, ARRAY;
+terminal ASSIGN, PLUS, MINUS, MULT, DIV, LPAREN, RPAREN, LSB, RSB, DOT, AT, BANG, SEP, COLON;
+terminal LTE, GTE, LT, GT, EQ, NEQ, NOT, AND, OR, TRUE, FALSE;
+terminal IF, THEN, ELSE, FROM, UNTIL, LOOP, IS, DO, END;
+terminal CLASS, METHOD, ATTRIB, CREATE;
+terminal MAKE, PUTINT, PUTSTR, PUT, ITEM, LOW, UP;
+terminal String STRING_LITERAL;
+terminal Integer NUMBER;
+terminal String ID;
+
+non terminal Program		program;
+non terminal RootClass		rootclass;
+non terminal VarDecList		optvardecs;
+non terminal VarDecList		vardecs;
+non terminal VarDec			vardec;
+non terminal Type			type;
+non terminal StmtList		stmts;
+non terminal Stmt			stmt;
+non terminal Expr			expr;
+
+precedence left NOT, AND, OR;
+precedence nonassoc LTE, GTE, LT, GT, EQ, NEQ;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV;
+
+start with program;
+
+program ::= rootclass:r
+			{: RESULT = new Program(r, null); :};
+
+rootclass ::= CLASS ID:n CREATE MAKE optvardecs:vl METHOD MAKE IS DO stmts:sl END END
+			{: RESULT = new RootClass(n, vl, null, sl, null); :};
+
+optvardecs ::= ATTRIB vardecs:vl
+			{: RESULT = vl; :}
+		|	{: RESULT = null; :};
+
+vardecs ::= vardec:v vardecs:vl
+			{: if(vl == null) RESULT = new LastVarDecList(v);
+				else RESULT = new PairVarDecList(v, vl); :}
+		|	{: RESULT = null; :};
+   
+vardec ::= ID:n COLON type:t
+			{: RESULT = new VarDec(n, t); :};
+
+type ::= INT
+			{: RESULT = new IntegerType(); :}
+		| BOOL
+			{: RESULT = new BooleanType(); :}
+		| ARRAY LSB INT RSB
+			{: RESULT = new IntArrayType(); :};
+   
+stmts ::= stmt:s stmts:sl
+			{: if(sl == null) RESULT = new LastStmtList(s);
+				else RESULT = new PairStmtList(s, sl); :}
+		|	{: RESULT = null; :};
+
+stmt ::= ID:n ASSIGN expr:e
+			{: RESULT = new Assign(n, e); :}
+		| IF expr:e THEN stmts:sl END
+			{: RESULT = new If(e, sl); :}
+		| IF expr:e THEN stmts:slt ELSE stmts:slf END
+			{: RESULT = new IfElse(e, slt, slf); :}
+		| FROM stmts:slf UNTIL expr:e LOOP stmts:sll END
+			{: RESULT = new From(slf, e, sll); :}
+		| PUTINT LPAREN expr:e RPAREN
+			{: RESULT = new PutInteger(e); :}
+		| PUTSTR LPAREN STRING_LITERAL:s RPAREN
+			{: RESULT = new PutString(s); :}
+		| ID:n DOT PUT LPAREN expr:p SEP expr:e RPAREN
+			{: RESULT = new ArrayPut(n, p, e); :}
+		| BANG ID:n DOT MAKE LPAREN expr:el SEP expr:eu RPAREN
+			{: RESULT = new CreateIntArray(n, el, eu); :};
+     
+expr ::= expr:e1 PLUS expr:e2
+			{: RESULT = new Plus(e1, e2); :}
+		| expr:e1 MINUS expr:e2
+			{: RESULT = new Minus(e1, e2); :}
+		| expr:e1 MULT expr:e2
+			{: RESULT = new Times(e1, e2); :}
+		| expr:e1 DIV expr:e2
+			{: RESULT = new IntDivide(e1, e2); :}
+		| MINUS expr:e
+			{: RESULT = new Minus(new NumberExpr(0), e); :}
+		| LPAREN expr:e RPAREN
+			{: RESULT = e; :}
+		| ID:n
+			{: RESULT = new IdExpr(n); :}
+		| NUMBER:v
+			{: RESULT = new NumberExpr(v); :}
+		| expr:e1 EQ expr:e2
+			{: RESULT = new Equal(e1, e2); :}
+		| expr:e1 NEQ expr:e2
+			{: RESULT = new NotEqual(e1, e2); :}
+		| expr:e1 LT expr:e2
+			{: RESULT = new LessThan(e1, e2); :}
+		| expr:e1 GT expr:e2
+			{: RESULT = new GreaterThan(e1, e2); :}
+		| expr:e1 LTE expr:e2
+			{: RESULT = new LessEqual(e1, e2); :}
+		| expr:e1 GTE expr:e2
+			{: RESULT = new GreaterEqual(e1, e2); :}
+		| NOT expr:e
+			{: RESULT = new Not(e); :}
+		| expr:e1 AND expr:e2
+			{: RESULT = new And(e1, e2); :}
+		| expr:e1 OR expr:e2
+			{: RESULT = new Or(e1, e2); :}
+		| TRUE
+			{: RESULT = new True(); :}
+		| FALSE
+			{: RESULT = new False(); :}
+		| ID:n DOT ITEM LPAREN expr:e RPAREN
+			{: RESULT = new Item(n, e); :}
+		| ID:n AT expr:e
+			{: RESULT = new Item(n, e); :}
+		| ID:n DOT LOW
+			{: RESULT = new Lower(n); :}
+ 		| ID:n DOT UP
+			{: RESULT = new Upper(n); :};
+

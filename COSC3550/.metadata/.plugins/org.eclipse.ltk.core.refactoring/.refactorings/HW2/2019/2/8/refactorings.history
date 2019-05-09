@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Alert.java&apos; to &apos;Project/src/cosc3550.object&apos;&#x0A;- Original project: &apos;HW2&apos;&#x0A;- Destination element: &apos;Project/src/cosc3550.object&apos;&#x0A;- Original element: &apos;Alert.java&apos;" description="Copy compilation unit" destination="=Project/src&lt;cosc3550.object" element1="/src&lt;{Alert.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1550508288764" units="1" version="1.0"/>
+</session>

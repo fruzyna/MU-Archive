@@ -1,0 +1,52 @@
+!SESSION 2019-02-08 09:58:49.724 -----------------------------------------------
+eclipse.buildId=4.10.0.I20181206-0815
+java.version=1.8.0_191
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-02-09 12:03:51.042
+!MESSAGE Connection to http://download.eclipse.org/releases/2018-12/201812191000/plugins/javax.activation_1.1.0.v201211130549.jar.pack.gz failed on download.eclipse.org. Retry attempt 0 started
+!STACK 0
+java.net.UnknownHostException: download.eclipse.org
+	at java.net.InetAddress.getAllByName0(InetAddress.java:1281)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1193)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1127)
+	at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:45)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.resolveHostname(DefaultClientConnectionOperator.java:263)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:162)
+	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
+	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:134)
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:610)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:445)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:835)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1084)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1075)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1071)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:74)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.equinox.p2.engine 4 4 2019-02-09 12:03:52.687
+!MESSAGE An error occurred while collecting items to be installed
+!SUBENTRY 1 org.eclipse.equinox.p2.engine 4 0 2019-02-09 12:03:52.687
+!MESSAGE session context was:(profile=_home_mail929_Programs_eclipse_java-2018-12_eclipse, phase=org.eclipse.equinox.internal.p2.engine.phases.Collect, operand=, action=).
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.nebula.widgets.tablecombo,1.2.0.201901181114
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.oomph.setup,1.12.0.v20190206-0943
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.oomph.setup.core,1.12.0.v20190206-0651
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.oomph.setup.edit,1.12.0.v20190206-0943
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.oomph.setup.editor,1.12.0.v20190206-0943
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.oomph.setup.ui,1.12.0.v20190206-0943
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: osgi.bundle,org.eclipse.oomph.util,1.11.0.v20190115-0558
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.687
+!MESSAGE No repository found containing: org.eclipse.update.feature,org.eclipse.oomph.setup.core,1.12.0.v20190206-0943
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2019-02-09 12:03:52.689
+!MESSAGE No repository found containing: org.eclipse.update.feature,org.eclipse.oomph.setup,1.12.0.v20190206-0943

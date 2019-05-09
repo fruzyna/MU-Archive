@@ -1,0 +1,1 @@
+java -classpath .:../jflex-1.6.1/lib/java-cup-11a.jar Main $1

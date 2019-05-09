@@ -1,0 +1,11 @@
+# Wrap up the pieces of compiling and run a gustave program
+#
+# written by mike slattery, apr 2019
+
+./jgo $1 > rest.txt
+cat prefix.txt rest.txt > gustave.S
+cp gustave.S xinu/system
+cd xinu/compile
+make
+arm-console
+

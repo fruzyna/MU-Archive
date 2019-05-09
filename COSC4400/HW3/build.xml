@@ -1,0 +1,94 @@
+<!-- Ant build file for jflexdemo         -->
+<!-- For use in COSC4400                  -->
+<!-- written by mike slattery, feb 2017  -->
+
+<project name="JFlex Demo" default="compile">
+
+  <!-- WARNING 1: Edit JFLEX property to give the location of the JFlex files on your system -->
+  <!-- On my Windows machine I use: -->
+  <property name="JFLEX" value="c:/users/mike/documents/courses/cosc4400/jflex-1.6.1" />
+
+  <!-- On pascal I use: 
+  <property name="JFLEX" value="/users/faculty/mikes/cosc4400/jflex-1.6.1" />
+   -->
+  <!-- END WARNING 1 -->
+
+  <!-- WARNING 2: The JGO property also depends on operating system -->
+  <!-- On my Windows machine I use: -->
+  <property name="JGO" value="jgo.bat" />
+  <property name="ARG1" value="%1" />
+  <property name="PATHSEP" value=";" />
+ 
+  <!-- On Unix/Linux I use:
+  <property name="JGO" value="jgo" />
+  <property name="ARG1" value="$1" />
+  <property name="PATHSEP" value=":" />
+   -->
+  <!-- END WARNING 2 -->
+
+  <property name="CUPJAR" value="${JFLEX}/lib/java-cup-11a.jar" />  
+  <property name="CP" value="${CUPJAR}${PATHSEP}." />
+    
+  <taskdef classname="jflex.anttask.JFlexTask" name="jflex" 
+    	classpath="${JFLEX}/lib/jflex-1.6.1.jar" />   	
+  <taskdef classname="java_cup.anttask.CUPTask" name="cup" 
+    	classpath="${CUPJAR}" />
+
+  <target name="jflex" depends="jflexCheck" unless="jflexOK">
+    <jflex file="one.flex" />
+  </target>
+  
+  <target name="jflexCheck">
+    <uptodate property="jflexOK"
+        srcfile="one.flex"
+        targetfile="Yylex.java"
+    />
+  </target>
+  
+  <target name="cup" depends="cupCheck" unless="cupOK">
+    <cup  srcfile="one.cup"
+          interface="yes" 
+          destdir="."
+    />
+    <delete file="parser.java" />
+  </target>
+  
+  <target name="cupCheck">
+    <uptodate property="cupOK"
+        srcfile="one.cup"
+        targetfile="sym.java"
+    />
+  </target>
+  
+  <target name="compile" depends="cup,jflex,jgo">
+    <javac includeantruntime="false"
+           srcdir="."
+           classpath="${CP}"
+    />
+  </target>
+  
+  <target name="jgo" depends="jgoCheck" unless="jgoOK">
+    <echo message="java -classpath ${CP} Main ${ARG1} ${line.separator}" file="${JGO}" />
+    <chmod file="${JGO}" perm="a+x" />
+  </target>
+  
+  <target name="jgoCheck">
+    <uptodate property="jgoOK"
+        srcfile="build.xml"
+        targetfile="${JGO}"
+    />
+  </target> 
+  
+  <target name="clean">
+    <delete>
+      <fileset dir=".">
+        <include name="*.class" />
+        <include name="sym.java" />
+        <include name="Yylex.java" />
+        <include name="${JGO}" />
+      </fileset>
+    </delete>
+  </target>
+    
+</project>
+ 

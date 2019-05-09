@@ -1,0 +1,22 @@
+/*
+ * Liam Fruzyna
+ * COSC 4400
+ * Assignment 3
+ * Gustave Scanner
+ */
+terminal INT, BOOL, ARRAY;
+terminal ASSIGN, PLUS, MINUS, MULT, DIV, LPAREN, RPAREN, LSB, RSB, DOT, AT, BANG, SEP, SEMIC, COLON;
+terminal LTE, GTE, LT, GT, EQ, NEQ, NOT, AND, OR, TRUE, FALSE;
+terminal IF, THEN, ELSE, FROM, UNTIL, LOOP, IS, DO, END;
+terminal LOCAL, REQ, ENSURE;
+terminal CLASS, METHOD, ATTRIB, CREATE;
+terminal MAKE, PUTINT, PUTSTR, PUT, ITEM, LOW, UP;
+terminal String STRING_LITERAL;
+terminal Integer NUMBER;
+terminal String ID;
+
+non terminal prog;
+
+start with prog;
+
+prog ::= ID;

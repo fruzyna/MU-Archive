@@ -1,0 +1,153 @@
+-- Gustave
+--
+-- Formal grammar for a small subset of Eiffel.
+--
+-- written by mike slattery - jan 2004
+-- updated to include AbSyn notations - feb 2004
+--
+-- Require and Ensure restricted to one boolean
+--  expression - feb 2004
+--
+-- Before each set of production rules, I list
+-- which abstract syntax tree will be used as the
+-- attribute of the left-hand-side non-terminal.
+-- In the case of Type, Stmt and Expr, I also
+-- indicate which trees get used for the various
+-- individual productions (in cases where it might
+-- not be obvious).  All of the "List" cases use
+-- "Pair..." or "Last..." as appropriate.
+--
+-- Tokens are written in upper-case, non-terminals
+-- in lower-case.  This means that when I write
+-- CLASS, for instance, I'm referring to the token
+-- whose lexeme is "class" (in other words, the
+-- upper-case means it's a token, it doesn't tell
+-- you whether that token is upper or lower-case in
+-- the source code).
+--
+-- NUMBER is the token returned by the scanner for
+-- an integer (with an attribute of type Integer).
+-- ID is the token returned by the scanner for a
+-- identifier (name).  It has an attribute of type
+-- String.
+--
+
+-- Program
+program -> rootclass classdecs
+
+-- RootClass
+rootclass -> CLASS ID CREATION MAKE
+		optvardecs
+		METHOD MAKE IS optlocals DO stmts END
+		methoddecs
+		END
+
+-- ClassDecList
+classdecs -> classdec classdecs
+          ->
+
+-- ClassDec
+classdec -> CLASS ID optvardecs optmethoddecs END
+	
+-- VarDecList
+optvardecs -> ATTRIBUTE vardecs
+           ->
+
+-- VarDecList    
+vardecs -> vardec vardecs
+        ->
+
+-- VarDec       
+vardec -> ID : type
+
+-- VarDecList
+optlocals -> LOCAL vardecs
+             ->
+  
+-- MethodDecList
+optmethoddecs -> METHOD methoddecs
+              ->
+
+-- MethodDecList
+methoddecs -> methoddec methoddecs
+           -> 
+
+-- MethodDec     
+methoddec -> ID optformals opttype IS
+		optrequire optlocals DO stmts optensure END
+
+-- VarDecList
+optformals -> ( formals )
+           ->
+
+-- VarDecList           
+formals -> vardec ; formals
+        -> vardec
+
+-- Type
+opttype -> : type
+        ->
+
+-- Expr
+optrequire -> REQUIRE expr
+           ->
+
+-- Expr
+optensure -> ENSURE expr
+          ->
+ 
+type -> INTEGER			-- IntegerType
+     -> BOOLEAN			-- BooleanType
+     -> ARRAY [ INTEGER ]	-- IntArrayType
+     -> ID			-- ClassType (used for object declarations)
+   
+-- StmtList
+stmts -> stmts stmt
+      ->
+      
+stmt -> ID := expr
+     -> IF expr THEN stmts END
+     -> IF expr THEN stmts ELSE stmts END
+     -> FROM stmts UNTIL expr LOOP stmts END
+     -> ID optparams			-- method call (AccessStmt)
+     -> ID . ID optparams		-- method call (AccessStmt)
+     -> IO.PUT_INTEGER ( expr )	  -- treat "io.put_integer" as a
+     -> IO.PUT_STRING ( STRING )  --  single token (similar for string)
+     -> ID . PUT ( expr, expr )		-- array assignment
+     -> !! ID . MAKE ( expr , expr )	-- array creation
+     -> !! ID				-- Create (object creation)
+     
+
+expr -> expr + expr
+     -> expr - expr
+     -> expr * expr
+     -> expr // expr		-- integer divide
+     -> - expr   		-- use Minus(0,expr) to represent
+     -> ( expr )
+     -> ID
+     -> NUMBER
+     -> expr = expr
+     -> expr /= expr		-- not equal
+     -> expr < expr
+     -> expr > expr
+     -> expr <= expr
+     -> expr >= expr
+     -> NOT expr
+     -> expr AND expr
+     -> expr OR expr
+     -> TRUE
+     -> FALSE
+     -> ID . ITEM ( expr )
+     -> ID @ expr		-- same as ITEM
+     -> ID . LOWER
+     -> ID . UPPER
+     -> ID ( exprs )            -- Access (method call within class)
+     -> ID . ID optparams	-- Access (method call or attrib access)
+
+-- ExprList
+optparams -> ( exprs )
+          ->
+
+-- ExprList         
+exprs -> expr , exprs
+      -> expr
