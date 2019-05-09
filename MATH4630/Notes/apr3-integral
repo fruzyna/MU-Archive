@@ -1,0 +1,17 @@
+N = 100;
+
+f = @(x) exp(x*x)
+a = 1;
+b = 4;
+M = 1;
+
+countBelow = 0;
+
+x = rand * (b - a) + a;
+y = rand * (M);
+
+yf = f(x);
+
+if y <= yf
+    countBelow = countBelow + 1;
+end
