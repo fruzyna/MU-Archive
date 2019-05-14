@@ -1,0 +1,13 @@
+# Game rules file for Unnamed Dungeon Crawler
+# Width of each room/screen
+ROOM_WIDTH=10
+# Height of each room/screen
+ROOM_HEIGHT=10
+# X position of the boss room (0-indexed)
+BOSS_ROOM_X=3
+# Y position of the boss room (0-indexed)
+BOSS_ROOM_Y=1
+# Enable secret room with all keys
+CHEAT_MODE=0
+# Announce rules on game start
+DISP_RULES=1
