@@ -1,0 +1,13 @@
+Hello,
+
+Here is your daily report. This Pi has been running for NUM_DAYS days.
+
+Average Temperature:   DAILY_TEMP
+Average Humidity:      DAILY_HUM
+Minimum Temperature:   MIN_TEMP
+Maximum Temperature:   MAX_TEMP
+Minimum Humidity:      MIN_HUM
+Maximum Humidity:      MAX_HUM
+
+Love,
+Your Pi

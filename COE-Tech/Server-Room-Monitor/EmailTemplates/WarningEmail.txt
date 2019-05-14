@@ -1,0 +1,6 @@
+Hello,
+
+The METRIC in the server room is currently CURR_VAL.
+
+Love, 
+Your Pi
