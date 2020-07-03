@@ -1,0 +1,22 @@
+COSC2100 Final by Liam Fruzyna
+Sample Runs
+
+Please enter a borrower card number: C101
+Books borrowed by C101 (Davolio) are as follows:
+Fundamentals of Database Systems, due date : 01/09/2015
+Cooking and Living, due date : 10/03/2014
+The Psychology of Computer Cooking, due date : 06/01/2015
+
+Please enter a borrower card number: C102
+Books borrowed by C102 (Fuller) are as follows:
+Sushi Anyone?, due date : 04/05/2015
+
+Please enter a borrower card number: C103
+Books borrowed by C103 (Leverling) are as follows:
+Fundamentals of Database Systems, due date : 05/10/2015
+
+Please enter a borrower card number: C104
+Books borrowed by C104 (Peacock) are as follows:
+The Gourmet Microwave, due date : 01/09/2015
+Straight Talk About Computers, due date : 06/02/2015
+

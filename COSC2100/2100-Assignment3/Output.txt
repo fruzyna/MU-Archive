@@ -1,0 +1,175 @@
+Calculating: (+ 5 0 10)
+Stack: 
+Stack: + 
+Stack: + 5 
+Stack: + 5 0 
+Broke on +
+5.0
+0
+10
+Stack now empty
+Sum at: 15.0
+Stack: 
+
+ 
+(+ 5 0 10) = 15.0
+ 
+
+Calculating: (+ 5 0 10 (- 7 2))
+Stack: 
+Stack: + 
+Stack: + 5 
+Stack: + 5 0 
+Stack: + 5 0 10 
+Stack: + 5 0 10 - 
+Stack: + 5 0 10 - 7 
+Broke on -
+7.0
+2
+Sum at: 5.0
+Stack: + 5 0 10 
+Broke on +
+5.0
+0
+10
+5.0
+Stack now empty
+Sum at: 20.0
+Stack: 
+
+ 
+(+ 5 0 10 (- 7 2)) = 20.0
+ 
+
+Calculating: (+ (- 6) (* 2 3 4) (/ (+ 3) (*) (- 2 3 1)))
+Stack: 
+Stack: + 
+Stack: + - 
+Broke on -
+6.0
+Sum at: -6.0
+Stack: + 
+Stack: + -6.0 
+Stack: + -6.0 * 
+Stack: + -6.0 * 2 
+Stack: + -6.0 * 2 3 
+Broke on *
+2.0
+3
+4
+Sum at: 24.0
+Stack: + -6.0 
+Stack: + -6.0 24.0 
+Stack: + -6.0 24.0 / 
+Stack: + -6.0 24.0 / + 
+Broke on +
+3.0
+Sum at: 3.0
+Stack: + -6.0 24.0 / 
+Stack: + -6.0 24.0 / 3.0 
+Broke on *
+Sum at: 1.0
+Stack: + -6.0 24.0 / 3.0 
+Stack: + -6.0 24.0 / 3.0 1.0 
+Stack: + -6.0 24.0 / 3.0 1.0 - 
+Stack: + -6.0 24.0 / 3.0 1.0 - 2 
+Stack: + -6.0 24.0 / 3.0 1.0 - 2 3 
+Broke on -
+2.0
+3
+1
+Sum at: -2.0
+Stack: + -6.0 24.0 / 3.0 1.0 
+Broke on /
+3.0
+1.0
+-2.0
+Sum at: -1.5
+Stack: + -6.0 24.0 
+Broke on +
+-6.0
+24.0
+-1.5
+Stack now empty
+Sum at: 16.5
+Stack: 
+
+ 
+(+ (- 6) (* 2 3 4) (/ (+ 3) (*) (- 2 3 1))) = 16.5
+ 
+
+Calculating: (+ (- 632) (* 21 3 4) (/ (+ 32) (*) (- 21 3 1)))
+Stack: 
+Stack: + 
+Stack: + - 
+Broke on -
+632.0
+Sum at: -632.0
+Stack: + 
+Stack: + -632.0 
+Stack: + -632.0 * 
+Stack: + -632.0 * 21 
+Stack: + -632.0 * 21 3 
+Broke on *
+21.0
+3
+4
+Sum at: 252.0
+Stack: + -632.0 
+Stack: + -632.0 252.0 
+Stack: + -632.0 252.0 / 
+Stack: + -632.0 252.0 / + 
+Broke on +
+32.0
+Sum at: 32.0
+Stack: + -632.0 252.0 / 
+Stack: + -632.0 252.0 / 32.0 
+Broke on *
+Sum at: 1.0
+Stack: + -632.0 252.0 / 32.0 
+Stack: + -632.0 252.0 / 32.0 1.0 
+Stack: + -632.0 252.0 / 32.0 1.0 - 
+Stack: + -632.0 252.0 / 32.0 1.0 - 21 
+Stack: + -632.0 252.0 / 32.0 1.0 - 21 3 
+Broke on -
+21.0
+3
+1
+Sum at: 17.0
+Stack: + -632.0 252.0 / 32.0 1.0 
+Broke on /
+32.0
+1.0
+17.0
+Sum at: 1.8823529411764706
+Stack: + -632.0 252.0 
+Broke on +
+-632.0
+252.0
+1.8823529411764706
+Stack now empty
+Sum at: -378.11764705882354
+Stack: 
+
+ 
+(+ (- 632) (* 21 3 4) (/ (+ 32) (*) (- 21 3 1))) = -378.11764705882354
+ 
+
+Calculating: (* 3 (/ 2))
+Stack: 
+Stack: * 
+Stack: * 3 
+Stack: * 3 / 
+Broke on /
+2.0
+Sum at: 0.5
+Stack: * 3 
+Broke on *
+3.0
+0.5
+Stack now empty
+Sum at: 1.5
+Stack: 
+
+ 
+(* 3 (/ 2)) = 1.5

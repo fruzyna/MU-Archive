@@ -1,0 +1,26 @@
+Liam Fruzyna
+Assignment 1
+
+1)
+Triangle_Area(a, b, c)
+	//input 3 side lengths of a triangle
+	//output area of the given triangle
+	p = (a + b + c) / 2	
+	area = sqrt(p * (p - a) * (p - b) * (p - c))
+	return area
+
+2a)
+Palindrome(s[o...n-1)
+	//input single String to be checked
+	//output boolean value of whether or not the string is a palindrome
+	for i = 0 to n -1
+		if s[i] != s[n-1 - (i + 1)]
+			return false
+	return true
+
+3b) Output
+C: true
+DAD: true
+RACECAR: true
+TEXTBOOK: false
+

@@ -1,0 +1,10 @@
+BOOKID,TITLE,PUBLISHER
+1001,Fundamentals of Database Systems,Addison-Wesley
+1002,Programming in Java,Princeton
+1003,The Busy Executives Database Guide,Algodata Infosystems
+1004,You Can Combat Computer Stress!,New Moon Books Inc.
+1005,Sushi Anyone?,Binnet Hardley
+1006,The Gourmet Microwave,Binnet Hardley
+1007,Straight Talk About Computers,Algodata Infosystems
+1008,The Psychology of Computer Cooking,Binnet Hardley
+1009,Cooking and Living,Binnet Hardley

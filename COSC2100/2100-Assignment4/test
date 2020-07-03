@@ -1,0 +1,44 @@
+Stocks.txt
+AAPL;Apple Inc.
+IBM; International Business Machines Corp.
+KO; The Coca-Cola Company
+FB; Facebook Inc.
+SBUX;Starbucks Corp.
+
+Transactions.txt
+AAPL;buy;10;$450
+KO;buy;100;$30
+IBM;buy;50;$150
+FB;buy;10;$30
+AAPL;sell;5;$480
+KO;sell;50;$50
+FB;buy;30;$40
+IBM;buy;50;$50
+FB;sell;20;$10
+SBUX;sell;30;$50
+
+Please enter a stock quote for realized gain(or loss) of the stock: 
+AAPL
+Congratulations, your realized gain for Apple Inc. is: $150
+
+Please enter a stock quote for realized gain(or loss) of the stock: 
+IBM
+Sorry, no realized gain(or loss) reported for  International Business Machines Corp.
+
+Please enter a stock quote for realized gain(or loss) of the stock: 
+KO
+Congratulations, your realized gain for  The Coca-Cola Company is: $1000
+
+Please enter a stock quote for realized gain(or loss) of the stock: 
+FB
+Sorry, your realized loss for  Facebook Inc. is: $500
+
+Please enter a stock quote for realized gain(or loss) of the stock: 
+SBUX
+Sorry, there is an error condition associated with Starbucks Corp.
+The number of sold shares exceeds the total buy quantity.
+
+Please enter a stock quote for realized gain(or loss) of the stock: 
+QQQQ
+Sorry, that stock quote does not exist in the system.
+

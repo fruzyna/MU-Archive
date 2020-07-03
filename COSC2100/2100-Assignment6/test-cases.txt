@@ -1,0 +1,73 @@
+//non int test
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: h
+Unknown entry, please try again.
+
+//invalid option test
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 5
+Unknown entry, please try again.
+
+//department tests
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 1
+Enter employee SSN: 222222202
+Andy Vile: Hardware (7)
+
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 1
+Enter employee SSN: 555555500
+John James: Software (6)
+
+//invalid SSN tests
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 2
+Enter employee SSN: 55
+Invalid Employee
+
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 1
+Enter employee SSN: 55
+Invalid Employee
+
+//supervisors tests
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 2
+Enter employee SSN: 222222201
+Josh Zell's Supervisors: Evan Wallis,
+
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 2
+Enter employee SSN: 666666606
+Ray King's Supervisors: Billie King, Lyle Leslie, Jill Jarvis, Bob Bender,
+
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 2
+Enter employee SSN: 333333300
+Kim Grace's Supervisors:
+
+//quit test
+1. List employee department
+2. List employee supervisors
+3. Quit
+Option #: 3
+
+(Program Terminated)

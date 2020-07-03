@@ -1,0 +1,10 @@
+AAPL;buy;10;$450
+KO;buy;100;$30
+IBM;buy;50;$150
+FB;buy;10;$30
+AAPL;sell;5;$480
+KO;sell;50;$50
+FB;buy;30;$40
+IBM;buy;50;$50
+FB;sell;20;$10
+SBUX;sell;30;$50

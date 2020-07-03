@@ -1,0 +1,47 @@
+Run 1 Output
+----------------
+Sorting 100 random values from 0 to 100
+Mode (BF:100): 4 instances of 6 in 2ms
+Mode (T&C:100): 4 instances of 6 in 0ms
+Transform and Conquer is faster by 2ms
+Sorting 1000 random values from 0 to 100
+Mode (BF:100): 6 instances of 95 in 0ms
+Mode (T&C:100): 6 instances of 95 in 0ms
+Algorithms took the same amount of time
+
+Run 2 Output
+----------------
+Sorting 100 random values from 0 to 100
+Mode (BF:100): 5 instances of 55 in 1ms
+Mode (T&C:100): 5 instances of 55 in 0ms
+Transform and Conquer is faster by 1ms
+Sorting 1000 random values from 0 to 100
+Mode (BF:100): 3 instances of 5 in 0ms
+Mode (T&C:100): 3 instances of 5 in 0ms
+Algorithms took the same amount of time
+
+Run 3 Output
+----------------
+Sorting 100 random values from 0 to 100
+Mode (BF:100): 3 instances of 3 in 1ms
+Mode (T&C:100): 3 instances of 3 in 0ms
+Transform and Conquer is faster by 1ms
+Sorting 1000 random values from 0 to 100
+Mode (BF:100): 4 instances of 8 in 1ms
+Mode (T&C:100): 4 instances of 8 in 0ms
+Transform and Conquer is faster by 1ms
+
+From these test we can tell we don't have a large enough sample size to get consistant results.
+Increasing the sample sizes to 100k and 1m items provides better results:
+
+Sorting 100000 random values from 0 to 100
+Mode (BF:100000): 1068 instances of 38 in 21ms
+Mode (T&C:100000): 1068 instances of 38 in 41ms
+Brute Force is faster by 20ms
+Sorting 1000000 random values from 0 to 100
+Mode (BF:1000000): 10296 instances of 26 in 56ms
+Mode (T&C:1000000): 10296 instances of 26 in 186ms
+Brute Force is faster by 130ms
+
+Here we can see Brute Force is significantly faster in both cases.
+It is faster because of it's more efficient use of Java collections framework that allows it to operate near O(n).

@@ -1,0 +1,20 @@
+Cash 1 details:
+The cash payment amount is $100.0
+
+Cash 2 details:
+The cash payment amount is $100.0
+
+Credit 1 details:
+The credit card payment amount is $100.0
+The name on the card is: Fred
+The expiration date is: 10/5/2010
+The credit card number is: 123456789
+
+Credit 2 details:
+The credit card payment amount is $100.0
+The name on the card is: Barney
+The expiration date is: 11/15/2009
+The credit card number is: 987654321
+
+cash2 and cash1 are equal
+credit2 and credit1 are equal

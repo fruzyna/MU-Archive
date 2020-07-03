@@ -1,0 +1,9 @@
+CARDNO,NAME
+C101,Davolio
+C102,Fuller
+C103,Leverling
+C104,Peacock
+C105,Buchanan
+C106,Suyama
+C107,King
+C108,Callahan
